@@ -1,0 +1,20 @@
+.card {
+  /* Add shadows to create the "card" effect */
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 5px; /* 5px rounded corners */
+  display: inline-block;
+}
+
+.container {
+  display: inline-block;
+  text-align: center;
+  background-color: green;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.head {
+  border-radius: 5px 5px 0 0;
+  text-align: center;
+}
