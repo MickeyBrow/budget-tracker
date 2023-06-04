@@ -1,4 +1,5 @@
-import SideNavbar from "../../../components/sideNavBar"
+import SideNavbar from "../../components/sideNavBar"
+import SidePanel from "../../components/sidePanel"
 import styles from "./Layout.module.css"
 
 export const metadata = {
@@ -11,8 +12,8 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <div className={styles.layout}>
-          <SideNavbar/>
-          {children}
+          <SidePanel/>
+          <main>{children}</main>
         </div>
       </body>
     </html>

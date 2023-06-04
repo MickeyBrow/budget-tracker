@@ -7,5 +7,6 @@
   .layout main {
     flex-grow: 1;
     padding: 20px;
+    margin-left: 160px;
   }
   
