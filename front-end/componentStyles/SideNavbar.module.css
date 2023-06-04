@@ -1,0 +1,24 @@
+/* SideNavbar.module.css */
+
+.sideNavbar {
+    width: 200px;
+    background-color: #389999;
+    padding: 20px;
+    margin-right: 30px;
+  }
+  
+  .sideNavbar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .sideNavbar li {
+    margin-bottom: 10px;
+  }
+  
+  .sideNavbar a {
+    text-decoration: none;
+    color: #333;
+  }
+  

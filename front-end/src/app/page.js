@@ -1,7 +1,8 @@
-export default function Page() {
+export default function Login() {
   return (
     <>
-      <div>Hi.</div>
+      <div>This will be the login page.</div>
+      <a href="/Dashboard">Sign In</a>
     </>
   )
 }
