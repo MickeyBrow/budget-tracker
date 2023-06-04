@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import styles from '../componentStyles/SideNavbar.module.css'; // Import CSS module styles
+import styles from '../componentStyles/bottomNavBar.css'; // Import CSS module styles
 
 
 const SideNavbar = () => {
