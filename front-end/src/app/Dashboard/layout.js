@@ -1,6 +1,6 @@
 import SideNavbar from "../../components/sideNavBar"
 import SidePanel from "../../components/sidePanel"
-import BottomNavBar from "@/components/bottomNavBar"
+import BottomNavBar from "../../components/bottomNavBar"
 import styles from "./Layout.module.css"
 
 export const metadata = {

@@ -3,24 +3,45 @@ import './page.css'
 export default function Dashboard() {
   return (
     <>
-      <div>
-        <div class="card">
-          <div class="head">
-            <h4><b>$400</b></h4>
-          </div>
-          <div class="container">
-            <h4><b>Income</b></h4>
-          </div>
-        </div>
-        <div class="card">
-          <div class="head">
-            <h4><b>$200</b></h4>
-          </div>
-          <div class="container">
-            <h4><b>Expenses</b></h4>
-          </div>
-        </div>
+      <h4>Summary:</h4>
+      <div class="App">
+        <table>
+          <tr>
+            <th>Total Income</th>
+            <th>Total Expenses</th>
+          </tr>
+          <tr>
+            <td>$400</td>
+            <td>$200</td>
+          </tr>
+        </table>
+        <table>
+          <tr>
+            <th>Expense Breakdown</th>
+          </tr>
+          <tr>
+            <th>Amount</th>
+            <th>Category</th>
+          </tr>
+          <tr>
+            <td>$400</td>
+            <td>Groceries</td>
+          </tr>
+          <tr>
+            <td>$400</td>
+            <td>Entertainment</td>
+          </tr>
+          <tr>
+            <td>$400</td>
+            <td>Bills</td>
+          </tr>
+          <tr>
+            <td>$400</td>
+            <td>Eating Out</td>
+          </tr>
+        </table>
       </div>
+      <h4>Months below here:</h4>
       <div>All divs below here will be for the month cards</div>
     </>
   )
