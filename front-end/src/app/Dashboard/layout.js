@@ -17,6 +17,7 @@ export default function RootLayout({ children }) {
           <main>{children}</main>
           <BottomNavBar/>
         </div>
+        <div className="border"></div>
       </body>
     </html>
   )

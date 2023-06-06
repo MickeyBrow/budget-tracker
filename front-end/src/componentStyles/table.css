@@ -1,0 +1,16 @@
+/* TableLayout.css */
+
+.table-container {
+  display: table;
+  width: 100%;
+}
+
+.table-row {
+  display: table-row;
+}
+
+.table-cell {
+  display: table-cell;
+  border: 1px solid #ccc;
+  padding: 8px;
+}
