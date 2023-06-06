@@ -22,14 +22,17 @@
   left: 0;
   width: 100%;
 }
-.addModule {
+.topbar a {
   float: left;
   display: block;
   color: #f2f2f2;
-  background-color:burlywood;
   text-align: center;
+  background-color: burlywood;
   padding: 14px 16px;
   text-decoration: none;
   font-size: 17px;
   border-bottom: 3px solid transparent;
+}
+.topbar a:hover {
+  background-color: rgb(191, 159, 117);
 }

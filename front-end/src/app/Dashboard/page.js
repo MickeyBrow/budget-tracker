@@ -45,10 +45,8 @@ export default function Dashboard() {
       <div className="border"></div>
       <div className="container">
         <div className="topbar">
-          <a className="addModule">+</a>
+          <a>+</a>
         </div>
-        <h4>Working here</h4>
-        <h4>Working here</h4>
       </div>
     </>
   )
