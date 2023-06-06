@@ -43,7 +43,13 @@ export default function Dashboard() {
         />
       </div>
       <div className="border"></div>
-      <h4>Here I want to have an add button that lets the user pick from a modal different charts and info to add to the page</h4>
+      <div className="container">
+        <div className="topbar">
+          <a className="addModule">+</a>
+        </div>
+        <h4>Working here</h4>
+        <h4>Working here</h4>
+      </div>
     </>
   )
 }
