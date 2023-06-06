@@ -14,6 +14,7 @@
 .container {
   background-color: aqua;
   display: grid;
+  grid-template-columns: 33% 33% 33%;
 }
 
 .topbar {
