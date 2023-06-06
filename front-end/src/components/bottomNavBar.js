@@ -1,3 +1,4 @@
+import './../componentStyles/bottomNavBar.css'
 const BottomNavBar = () => {
   return (
     <div class="bottomnav">
