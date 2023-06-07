@@ -32,7 +32,29 @@ export default function Janurary() {
       <h4>Overview:</h4>
       <div className="container">
         <div className="leftSide">
-          <h4>Working here</h4>
+          <div className="table">
+            <div className="title" style={{backgroundColor: "rgb(0, 128, 0)"}}>Income</div>
+            <div className="header">
+              <div className="table-cell">Amount</div>
+              <div className="table-cell">Category</div>
+            </div>
+          </div>
+
+          <div className="table">
+            <div className="title" style={{backgroundColor: "rgb(255, 0, 0)"}}>Expenses</div>
+            <div className="header">
+              <div className="table-cell">Amount</div>
+              <div className="table-cell">Category</div>
+            </div>
+          </div>
+
+          <div className="table">
+            <div className="title" style={{backgroundColor: "rgb(106, 220, 220)"}}>Bills</div>
+            <div className="header">
+              <div className="table-cell">Amount</div>
+              <div className="table-cell">Category</div>
+            </div>
+          </div>
         </div>
         <div className="rightSide">
           <Doughnut
