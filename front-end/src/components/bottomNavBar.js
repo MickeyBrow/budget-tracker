@@ -1,21 +1,20 @@
 import './../componentStyles/bottomNavBar.css'
 const BottomNavBar = () => {
   return (
-    <div class="bottomnav">
-      <a href="#Summary">Summary</a>
-      <a href="#news">Janurary</a>
-      <a href="#contact">Feburary</a>
-      <a href="#contact">March</a>
-      <a href="#contact">March</a>
-      <a href="#contact">April</a>
-      <a href="#contact">May</a>
-      <a href="#contact">June</a>
-      <a href="#contact">July</a>
-      <a href="#contact">August</a>
-      <a href="#contact">September</a>
-      <a href="#contact">October</a>
-      <a href="#contact">November</a>
-      <a href="#contact">December</a>
+    <div className="bottomnav">
+      <a href="/Dashboard" className="active">Summary</a>
+      <a href="/Dashboard/Months/Janurary">Janurary</a>
+      <a href="/Dashboard/Months/Feburary">Feburary</a>
+      <a href="/Dashboard/Months/March">March</a>
+      <a href="/Dashboard/Months/April">April</a>
+      <a href="/Dashboard/Months/May">May</a>
+      <a href="/Dashboard/Months/June">June</a>
+      <a href="/Dashboard/Months/July">July</a>
+      <a href="/Dashboard/Months/August">August</a>
+      <a href="/Dashboard/Months/September">September</a>
+      <a href="/Dashboard/Months/October">October</a>
+      <a href="/Dashboard/Months/November">November</a>
+      <a href="/Dashboard/Months/December">December</a>
     </div>
   );
 };
