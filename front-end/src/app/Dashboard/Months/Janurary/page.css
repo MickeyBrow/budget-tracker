@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+}
+
+.leftSide {
+  width: 50%;
+  background-color: aqua;
+}
+
+.rightSide {
+  width: 50%;
+  background-color: blue;
+}
