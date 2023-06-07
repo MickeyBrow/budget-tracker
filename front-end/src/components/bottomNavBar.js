@@ -1,8 +1,10 @@
 import './../componentStyles/bottomNavBar.css'
+
 const BottomNavBar = () => {
+
   return (
     <div className="bottomnav">
-      <a href="/Dashboard" className="active">Summary</a>
+      <a href="/Dashboard">Summary</a>
       <a href="/Dashboard/Months/Janurary">Janurary</a>
       <a href="/Dashboard/Months/Feburary">Feburary</a>
       <a href="/Dashboard/Months/March">March</a>
