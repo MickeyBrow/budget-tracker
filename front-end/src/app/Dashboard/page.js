@@ -104,36 +104,40 @@ export default function Dashboard() {
     <>
       <h4>Overview:</h4>
       <div className="head">
-        <Doughnut
-          data={data}
-          width={400}
-          height={400}
-          options={
-            {
-              plugins: {
-                title: {
-                  display: true,
-                  text: "Expense Breakdown"
+        <div className="leftSide">
+          <Doughnut
+            data={data}
+            width={400}
+            height={400}
+            options={
+              {
+                plugins: {
+                  title: {
+                    display: true,
+                    text: "Expense Breakdown"
+                  }
                 }
               }
             }
-          }
-        />
-        <Line
-          data={line_data}
-          width={400}
-          height={400}
-          options={
-            {
-              plugins: {
-                title: {
-                  display: true,
-                  text: "Expense Breakdown"
+          />
+        </div>
+        <div className="rightSide">
+          <Line
+            data={line_data}
+            width={400}
+            height={400}
+            options={
+              {
+                plugins: {
+                  title: {
+                    display: true,
+                    text: "Expense Breakdown"
+                  }
                 }
               }
             }
-          }
-        />
+          />
+        </div>
       </div>
       <hr style={{marginTop: "30px"}}/>
       <div className="topbar">
