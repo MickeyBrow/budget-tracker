@@ -2,27 +2,28 @@
 
 import 'chart.js/auto';
 import './page.css'
-import React from 'react';
-import {Doughnut, Bar} from 'react-chartjs-2';
+import React, {useState} from 'react';
+import {Doughnut, Bar, Line} from 'react-chartjs-2';
+import AddModuleModal from '@/components/addModuleModal';
 
 export default function Dashboard() {
+  const [isOpen, setIsOpen] = useState(false);
+
   const data = {
-    labels: [
-      'Red',
-      'Green',
-      'Yellow'
-    ],
+    labels: ["Groceries", "Entertainment", "Bills", "Eating Out"],
     datasets: [{
-      data: [300, 50, 100],
+      data: [300, 50, 100, 20],
       backgroundColor: [
-      '#FF6384',
-      '#36A2EB',
-      '#FFCE56'
+      'rgb(0,0,255)',
+      'rgb(255,0,0)',
+      'rgb(0,255,0)',
+      'rgb(0,255,255)'
       ],
       hoverBackgroundColor: [
-      '#FF6384',
-      '#36A2EB',
-      '#FFCE56'
+      'rgb(0,0,255)',
+      'rgb(255,0,0)',
+      'rgb(0,255,0)',
+      'rgb(0,255,255)'
       ]
     }]
   };
@@ -30,7 +31,6 @@ export default function Dashboard() {
   const bar_data = {
     labels: ["Janurary", "Feburary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
     datasets: [{
-      label: 'My First Dataset',
       data: [65, 59, 80, 81, 56, 55, 40],
       backgroundColor: [
         'rgba(255, 99, 132, 0.2)',
@@ -53,6 +53,52 @@ export default function Dashboard() {
       borderWidth: 1
     }]
   };
+
+  const line_data = {
+    labels: ["Janurary", "Feburary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+    datasets: [
+      {
+      label: 'Groceries',
+      data: [65, 59, 80, 81, 56, 55, 40],
+      fill: false,
+      borderColor: 'rgb(75, 192, 192)',
+      tension: 0.1
+      },
+      {
+        label: 'Entertainment',
+        data: [99, 0, 80, 81, 5, 100, 40],
+        fill: false,
+        borderColor: 'rgb(20, 100, 192)',
+        tension: 0.1
+      },
+      {
+        label: 'Bills',
+        data: [17, 0, 5, 81, 53, 17, 90],
+        fill: false,
+        borderColor: 'rgb(90, 7, 195)',
+        tension: 0.1
+      },
+      {
+        label: 'Eating Out',
+        data: [90, 10, 85, 41, 53, 7, 90],
+        fill: false,
+        borderColor: 'rgb(190, 87, 195)',
+        tension: 0.1
+      }
+    ]
+  };
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+  const onSubmitClick = () => {
+    console.log("yay");
+  };
   
   return (
     <>
@@ -62,16 +108,40 @@ export default function Dashboard() {
           data={data}
           width={400}
           height={400}
+          options={
+            {
+              plugins: {
+                title: {
+                  display: true,
+                  text: "Expense Breakdown"
+                }
+              }
+            }
+          }
         />
-        <Bar
-          data={bar_data}
+        <Line
+          data={line_data}
           width={400}
           height={400}
+          options={
+            {
+              plugins: {
+                title: {
+                  display: true,
+                  text: "Expense Breakdown"
+                }
+              }
+            }
+          }
         />
       </div>
-      <div className="border"></div>
+      <hr style={{marginTop: "30px"}}/>
       <div className="topbar">
-          <a>+</a>
+          <a onClick={openModal}>+</a>
+          <AddModuleModal isOpen={isOpen} onClose={closeModal} onSubmit={onSubmitClick}>
+            <h2>Add Module:</h2>
+            <hr/>
+          </AddModuleModal>
         </div>
       <div className="container">
         <h4>Working here</h4>

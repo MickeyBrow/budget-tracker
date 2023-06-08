@@ -4,12 +4,10 @@
 
 .leftSide {
   width: 50%;
-  background-color: aqua;
 }
 
 .rightSide {
   width: 50%;
-  background-color: rgb(0, 0, 255);
 }
 
 .table {
