@@ -8,6 +8,7 @@ const AddDataModal = ({ isOpen, onClose }) => {
 
   const [firstPage, setFirstPage] = useState(true);
   const [firstPageChoice, setFirstPageChoice] = useState();
+  const [amountInvalid, setAmountInvalid] = useState(false);
 
   const closeModal = () => {
     setFirstPage(true);
@@ -48,6 +49,23 @@ const AddDataModal = ({ isOpen, onClose }) => {
         );
     }
   };
+
+  const amountCheck = () => {
+    const str = document.getElementById('amount').value;
+
+    if (str[0] != '$' || str.length <= 1) {
+      setAmountInvalid(true);
+      return;
+    }
+    var numCheck = str.slice(1);
+    numCheck = Number(numCheck);
+    if (!Number.isInteger(numCheck)) {
+      setAmountInvalid(true);
+      return;
+    }
+
+    setAmountInvalid(false);
+  }
 
   const firstPageContinue = () => {
     const choice = document.getElementById('choice');
@@ -94,8 +112,13 @@ const AddDataModal = ({ isOpen, onClose }) => {
           : 
           <>
             <h4>{firstPageChoice}</h4>
+            {amountInvalid ? 
+            <p>Amount must have $ followed by digits (i.e. $1)</p>
+            :
+            null
+            }
             <label>
-              Amount: <input id="amount"/>
+              Amount: <input id="amount" defaultValue="$" onChange={amountCheck}/>
             </label>
             <label style={{marginLeft: "10px"}}>
               Category: <select id="category">
@@ -108,7 +131,7 @@ const AddDataModal = ({ isOpen, onClose }) => {
         {firstPage ?
           <button className="submitButton" onClick={firstPageContinue}>Continue</button>
           : 
-          <button className="submitButton" onClick={onSubmit}>Submit</button>
+          <button className="submitButton" onClick={onSubmit} disabled={amountInvalid}>Submit</button>
         }
         </div>
       </div>
