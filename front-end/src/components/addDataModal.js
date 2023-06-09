@@ -1,6 +1,6 @@
 import './../componentStyles/addDataModal.css'
 
-const AddDataModal = ({ isOpen, onClose, onSubmit, children }) => {
+const AddDataModal = ({ isOpen, onClose, children }) => {
   if (!isOpen) {
     return null;
   }
@@ -12,9 +12,6 @@ const AddDataModal = ({ isOpen, onClose, onSubmit, children }) => {
           X
         </button>
         <div className="modalContent">{children}</div>
-        <button className="submitButton" onClick={onSubmit}>
-          Sumbit
-        </button>
       </div>
     </div>
   );
