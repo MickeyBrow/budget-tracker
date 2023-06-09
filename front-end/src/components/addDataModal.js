@@ -9,6 +9,7 @@ const AddDataModal = ({ isOpen, onClose }) => {
   const [firstPage, setFirstPage] = useState(true);
   const [firstPageChoice, setFirstPageChoice] = useState();
   const [amountInvalid, setAmountInvalid] = useState(false);
+  const [categoryInvalid, setCategoryInvalid] = useState(false);
 
   const closeModal = () => {
     setFirstPage(true);
@@ -76,12 +77,15 @@ const AddDataModal = ({ isOpen, onClose }) => {
   };
 
   const onSubmit = () => {
-    const amount = document.getElementById('amount');
-    const category = document.getElementById('category');
+    const amount = document.getElementById('amount').value;
+    const category = document.getElementById('category').value;
 
     // Check to make sure amount has a $ at the beginning and only integers after
-    console.log(amount.value);
-    console.log(category.value);
+    if (!category) {
+      setCategoryInvalid(true);
+      return;
+    }
+    else setCategoryInvalid(false);
 
     // Pass the values to firebase to get in the DB
     closeModal();
@@ -117,6 +121,11 @@ const AddDataModal = ({ isOpen, onClose }) => {
             :
             null
             }
+            {categoryInvalid ? 
+            <p>Select a category</p>
+            :
+            null
+            }
             <label>
               Amount: <input id="amount" defaultValue="$" onChange={amountCheck}/>
             </label>
@@ -131,7 +140,7 @@ const AddDataModal = ({ isOpen, onClose }) => {
         {firstPage ?
           <button className="submitButton" onClick={firstPageContinue}>Continue</button>
           : 
-          <button className="submitButton" onClick={onSubmit} disabled={amountInvalid}>Submit</button>
+          <button className="submitButton" onClick={onSubmit} disabled={amountInvalid && categoryInvalid}>Submit</button>
         }
         </div>
       </div>
