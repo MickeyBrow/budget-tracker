@@ -114,7 +114,7 @@ export default function Dashboard() {
                 plugins: {
                   title: {
                     display: true,
-                    text: "Expense Breakdown"
+                    text: "Expense Breakdown Over Year"
                   }
                 }
               }
@@ -131,7 +131,7 @@ export default function Dashboard() {
                 plugins: {
                   title: {
                     display: true,
-                    text: "Expense Breakdown"
+                    text: "Expense Breakdown Per Month"
                   }
                 }
               }

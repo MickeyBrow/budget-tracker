@@ -7,22 +7,20 @@ import {Doughnut} from 'react-chartjs-2';
 
 export default function Janurary() {
   const data = {
-    labels: [
-      'Red',
-      'Green',
-      'Yellow'
-    ],
+    labels: ["Groceries", "Entertainment", "Bills", "Eating Out"],
     datasets: [{
-      data: [300, 50, 100],
+      data: [300, 50, 100, 20],
       backgroundColor: [
-      '#FF6384',
-      '#36A2EB',
-      '#FFCE56'
+      'rgb(0,0,255)',
+      'rgb(255,0,0)',
+      'rgb(0,255,0)',
+      'rgb(0,255,255)'
       ],
       hoverBackgroundColor: [
-      '#FF6384',
-      '#36A2EB',
-      '#FFCE56'
+      'rgb(0,0,255)',
+      'rgb(255,0,0)',
+      'rgb(0,255,0)',
+      'rgb(0,255,255)'
       ]
     }]
   };
@@ -61,11 +59,16 @@ export default function Janurary() {
           data={data}
           width={400}
           height={400}
-          />
-          <Doughnut
-            data={data}
-            width={400}
-            height={400}
+          options={
+            {
+              plugins: {
+                title: {
+                  display: true,
+                  text: "Expense Breakdown Over Month"
+                }
+              }
+            }
+          }
           />
         </div>
       </div>
