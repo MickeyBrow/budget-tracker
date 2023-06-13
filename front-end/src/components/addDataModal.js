@@ -11,10 +11,15 @@ const AddDataModal = ({ isOpen, onClose }) => {
   const [amountInvalid, setAmountInvalid] = useState(false);
   const [categoryInvalid, setCategoryInvalid] = useState(false);
 
+  const onSubmitApiLink = "http://127.0.0.1:5000/data?uid=3&table=Income&amount=20&category=Paycheck&month=May"
+  const testApiLink = "http://localhost:5000/"
+
   const closeModal = () => {
     setFirstPage(true);
     onClose();
   };
+
+  const monthList = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] 
 
   const secondPageChoiceSwitch = (choice) => {
     switch(choice) {
@@ -77,18 +82,37 @@ const AddDataModal = ({ isOpen, onClose }) => {
   };
 
   const onSubmit = () => {
-    const amount = document.getElementById('amount').value;
-    const category = document.getElementById('category').value;
+    const amount_choice = document.getElementById('amount').value;
+    const category_choice = document.getElementById('category').value;
+    const month_choice = document.getElementById('month').value;
 
     // Check to make sure amount has a $ at the beginning and only integers after
-    if (!category) {
+    if (!category_choice || !month_choice) {
       setCategoryInvalid(true);
       return;
     }
     else setCategoryInvalid(false);
 
     // Pass the values to firebase to get in the DB
+    fetch(onSubmitApiLink, {
+      method: 'POST',
+      body: JSON.stringify({
+        amount: amount_choice,
+        category: category_choice,
+        month: month_choice
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
     closeModal();
+  }
+
+  const testAPI = () => {
+    fetch(testApiLink)
+    .then(function(response){ return response.json() })
+    .then(function(data){ console.log(data) })
+    closeModal()
   }
 
   return (
@@ -134,13 +158,21 @@ const AddDataModal = ({ isOpen, onClose }) => {
                 {secondPageChoiceSwitch(firstPageChoice)}
               </select>
             </label>
+            <label style={{marginLeft: "10px"}}>
+              Month: <select id="month">
+                <option value="">---</option>
+                {monthList.map(function(month){
+                  return <option value={month}>{month}</option>
+                })}
+              </select>
+            </label>
           </>}
         </div>
         <div className="modalTail">
         {firstPage ?
           <button className="submitButton" onClick={firstPageContinue}>Continue</button>
           : 
-          <button className="submitButton" onClick={onSubmit} disabled={amountInvalid && categoryInvalid}>Submit</button>
+          <button className="submitButton" onClick={testAPI} disabled={amountInvalid && categoryInvalid}>Submit</button>
         }
         </div>
       </div>

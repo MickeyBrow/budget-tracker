@@ -1,6 +1,7 @@
 import firebase_admin
 import uuid
 from flask import Flask, request
+from flask_cors import CORS
 from firebase_admin import credentials, firestore
 
 cred = credentials.Certificate("../secrets/serviceAccountKey.json")
@@ -10,11 +11,11 @@ db = firestore.client()
 
 
 app = Flask(__name__)
-
+CORS(app)
 
 @app.route('/')
 def server():
-  return 'Hello, World!'
+  return {"data": "Hello, World"}
 
 @app.route('/data', methods=['POST'])
 def addData():
