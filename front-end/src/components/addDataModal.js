@@ -11,8 +11,7 @@ const AddDataModal = ({ isOpen, onClose }) => {
   const [amountInvalid, setAmountInvalid] = useState(false);
   const [categoryInvalid, setCategoryInvalid] = useState(false);
 
-  const onSubmitApiLink = "http://127.0.0.1:5000/data?uid=3&table=Income&amount=20&category=Paycheck&month=May"
-  const testApiLink = "http://localhost:5000/"
+  const testApiLink = "http://127.0.0.1:5000/"
 
   const closeModal = () => {
     setFirstPage(true);
@@ -94,6 +93,7 @@ const AddDataModal = ({ isOpen, onClose }) => {
     else setCategoryInvalid(false);
 
     // Pass the values to firebase to get in the DB
+    const onSubmitApiLink = `http://127.0.0.1:5000/data?uid=3&table=${firstPageChoice}`
     fetch(onSubmitApiLink, {
       method: 'POST',
       body: JSON.stringify({
@@ -172,7 +172,7 @@ const AddDataModal = ({ isOpen, onClose }) => {
         {firstPage ?
           <button className="submitButton" onClick={firstPageContinue}>Continue</button>
           : 
-          <button className="submitButton" onClick={testAPI} disabled={amountInvalid && categoryInvalid}>Submit</button>
+          <button className="submitButton" onClick={onSubmit} disabled={amountInvalid && categoryInvalid}>Submit</button>
         }
         </div>
       </div>

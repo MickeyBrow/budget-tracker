@@ -20,9 +20,10 @@ def server():
 @app.route('/data', methods=['POST'])
 def addData():
   # Need to add the data that is being passed here. 
-  uid, table, amount, category, month = request.args.get('uid'), request.args.get('table'), request.args.get('amount'), request.args.get('category'), request.args.get('month')
-  
-  temp_ref = db.collection(uid).document('Dashboard').collection(month).document(table)
+  uid, table = request.args.get('uid'), request.args.get('table')
+  data = request.json
+  print(data)
+  temp_ref = db.collection(uid).document('Dashboard').collection(data['month']).document(table)
 
   current = temp_ref.get()
   if current.exists:
@@ -31,7 +32,7 @@ def addData():
     current = {}
 
   id = str(uuid.uuid4())
-  current["amount/category/" + id] = str(amount) + "/" + str(category)
+  current["amount/category/" + id] = data['amount'] + "/" + data['category']
   temp_ref.set(current)
 
   return {}
