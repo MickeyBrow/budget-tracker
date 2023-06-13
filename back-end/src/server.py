@@ -19,10 +19,9 @@ def server():
 
 @app.route('/data', methods=['POST'])
 def addData():
-  # Need to add the data that is being passed here. 
   uid, table = request.args.get('uid'), request.args.get('table')
   data = request.json
-  print(data)
+
   temp_ref = db.collection(uid).document('Dashboard').collection(data['month']).document(table)
 
   current = temp_ref.get()
@@ -40,4 +39,15 @@ def addData():
 @app.route('/data', methods=['GET'])
 def getData():
   # This will be where we get the data for a specific month. Need a param here in the url so I can see what months data needs to be grabbed
+  uid, month = request.args.get('uid'), request.args.get('month')
+
+  data = {}
+
+  temp_ref = db.collection(uid).document('Dashboard').collection(month)
+  docs = temp_ref.stream()
+  for doc in docs:
+    data[doc.id] = doc.to_dict()
+  
+  print(data)
+
   return 'Hello, World!'
