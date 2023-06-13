@@ -11,8 +11,6 @@ const AddDataModal = ({ isOpen, onClose }) => {
   const [amountInvalid, setAmountInvalid] = useState(false);
   const [categoryInvalid, setCategoryInvalid] = useState(false);
 
-  const testApiLink = "http://127.0.0.1:5000/"
-
   const closeModal = () => {
     setFirstPage(true);
     onClose();
@@ -106,13 +104,6 @@ const AddDataModal = ({ isOpen, onClose }) => {
       }
     })
     closeModal();
-  }
-
-  const testAPI = () => {
-    fetch(testApiLink)
-    .then(function(response){ return response.json() })
-    .then(function(data){ console.log(data) })
-    closeModal()
   }
 
   return (
