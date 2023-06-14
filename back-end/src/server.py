@@ -1,5 +1,7 @@
 import firebase_admin
 import uuid
+
+from helpers import *
 from flask import Flask, request
 from flask_cors import CORS
 from firebase_admin import credentials, firestore
@@ -50,6 +52,6 @@ def getData():
   for doc in docs:
     data[doc.id] = doc.to_dict()
   
-  print(data)
+  data = formatMonthData(data)
 
-  return 'Hello, World!'
+  return {'data': data}
