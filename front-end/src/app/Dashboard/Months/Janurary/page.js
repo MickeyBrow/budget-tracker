@@ -6,11 +6,15 @@ import React, { useEffect } from 'react';
 import {Doughnut} from 'react-chartjs-2';
 
 export default function Janurary() {
-  // const getMonthDataLink = `http://127.0.0.1:5000/data?uid=3&table=${firstPageChoice}`
+  const getMonthDataLink = "http://127.0.0.1:5000/data?uid=3&month=Janurary"
+  useEffect(async() => {
+    const res = await fetch(getMonthDataLink)
+    .then((response) => response.json())
 
-  // useEffect(() => {
-  //   fetch(getMonthDataLink)
-  // },[])
+    console.log(res['data'])
+  },[])
+
+
   const data = {
     labels: ["Groceries", "Entertainment", "Bills", "Eating Out"],
     datasets: [{
