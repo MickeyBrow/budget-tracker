@@ -34,6 +34,8 @@ def addData():
   current["amount/category/" + id] = data['amount'] + "/" + data['category']
   temp_ref.set(current)
 
+  temp_ref.update({'total': firestore.Increment(float(data['amount'][1:]))})
+
   return {}
 
 @app.route('/data', methods=['GET'])

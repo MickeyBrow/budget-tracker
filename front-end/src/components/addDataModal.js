@@ -56,7 +56,7 @@ const AddDataModal = ({ isOpen, onClose }) => {
   const amountCheck = () => {
     const str = document.getElementById('amount').value;
 
-    if (str[0] != '$' || str.length <= 1) {
+    if (str[0] != '$' || str.length <= 1 || str[str.length - 3] != '.') {
       setAmountInvalid(true);
       return;
     }
@@ -132,7 +132,7 @@ const AddDataModal = ({ isOpen, onClose }) => {
           <>
             <h4>{firstPageChoice}</h4>
             {amountInvalid ? 
-            <p>Amount must have $ followed by digits (i.e. $1)</p>
+            <p>Amount must have $ followed by digits with cents included. (i.e. $1.00)</p>
             :
             null
             }
