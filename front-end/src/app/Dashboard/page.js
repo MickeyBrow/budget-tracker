@@ -2,17 +2,57 @@
 
 import 'chart.js/auto';
 import './page.css'
-import React, {useState} from 'react';
+import React, {useState, useEffect } from 'react';
 import {Doughnut, Bar, Line} from 'react-chartjs-2';
 import AddModuleModal from '@/components/addModuleModal';
 
 export default function Dashboard() {
+  const account_uid = "seed"
+  const getSummaryDataLink = `http://127.0.0.1:5000/dashboard?uid=${account_uid}`
+  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+  
+  const lineData = {
+    'Groceries': [],
+    'Entertainment': [],
+    'Eating Out': []
+  }
+
+  var groceries_sum = 0, entertainment_sum = 0, eating_out_sum = 0
+  
   const [isOpen, setIsOpen] = useState(false);
+  const [response, setResponse] = useState();
+
+  useEffect(() => {
+    const fetchTableData = async () => {
+      await fetch(getSummaryDataLink)
+      .then((response) => {return response.json()})
+      .then((data) => {setResponse(data)})
+    }
+
+    fetchTableData().catch(console.error)
+  },[])
+
+
+  if(!response){
+    return <p>Broken.</p>
+  }
+  else {
+    months.map((month) => {
+      lineData['Groceries'].push(response[month]['Groceries'])
+      groceries_sum += response[month]['Groceries']
+
+      lineData['Entertainment'].push(response[month]['Entertainment'])
+      entertainment_sum += response[month]['Entertainment']
+
+      lineData['Eating Out'].push(response[month]['Eating Out'])
+      eating_out_sum += response[month]['Eating Out']
+    })
+  }  
 
   const data = {
-    labels: ["Groceries", "Entertainment", "Bills", "Eating Out"],
+    labels: ["Groceries", "Entertainment", "Eating Out"],
     datasets: [{
-      data: [300, 50, 100, 20],
+      data: [groceries_sum, entertainment_sum, eating_out_sum],
       backgroundColor: [
       'rgb(0,0,255)',
       'rgb(255,0,0)',
@@ -29,32 +69,25 @@ export default function Dashboard() {
   };
 
   const line_data = {
-    labels: ["Janurary", "Feburary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+    labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
     datasets: [
       {
       label: 'Groceries',
-      data: [65, 59, 80, 81, 56, 55, 40],
+      data: lineData['Groceries'],
       fill: false,
       borderColor: 'rgb(75, 192, 192)',
       tension: 0.1
       },
       {
         label: 'Entertainment',
-        data: [99, 0, 80, 81, 5, 100, 40],
+        data: lineData['Entertainment'],
         fill: false,
         borderColor: 'rgb(20, 100, 192)',
         tension: 0.1
       },
       {
-        label: 'Bills',
-        data: [17, 0, 5, 81, 53, 17, 90],
-        fill: false,
-        borderColor: 'rgb(90, 7, 195)',
-        tension: 0.1
-      },
-      {
         label: 'Eating Out',
-        data: [90, 10, 85, 41, 53, 7, 90],
+        data: lineData['Eating Out'],
         fill: false,
         borderColor: 'rgb(190, 87, 195)',
         tension: 0.1

@@ -74,7 +74,8 @@ def getDashboardData():
     for doc in docs:
       data[doc.id] = doc.to_dict()
     
-    data = formatSummaryData(data)
-    response[month] = data
+    data = formatMonthData(data)
+    ExpenseTotals = totalPerExpenseCategory(data)
+    response[month] = ExpenseTotals
 
   return response
