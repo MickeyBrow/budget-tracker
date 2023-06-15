@@ -5,9 +5,9 @@ import './page.css'
 import React, { useEffect, useState } from 'react';
 import {Doughnut} from 'react-chartjs-2';
 
-export default function Janurary() {
+export default function May() {
   const account_uid = "seed"
-  const getMonthDataLink = `http://127.0.0.1:5000/data?uid=${account_uid}&month=January`
+  const getMonthDataLink = `http://127.0.0.1:5000/data?uid=${account_uid}&month=May`
 
   const [incomeData, setIncomeData] = useState()
   const [isLoading, setIsLoading] = useState(false)
@@ -35,6 +35,9 @@ export default function Janurary() {
   const bill_category_array = incomeData.Bill_category
   const ExpenseTotals = incomeData.Expense_totals
 
+  console.log(ExpenseTotals)
+  console.log(Object.keys(ExpenseTotals))
+  console.log(Object.values(ExpenseTotals))
   const data = {
     labels: Object.keys(ExpenseTotals),
     datasets: [{

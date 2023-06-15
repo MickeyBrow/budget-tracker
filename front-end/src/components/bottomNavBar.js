@@ -6,7 +6,7 @@ const BottomNavBar = () => {
     <div className="bottomnav">
       <a href="/Dashboard">Summary</a>
       <a href="/Dashboard/Months/Janurary">Janurary</a>
-      <a href="/Dashboard/Months/Feburary">Feburary</a>
+      <a href="/Dashboard/Months/February">February</a>
       <a href="/Dashboard/Months/March">March</a>
       <a href="/Dashboard/Months/April">April</a>
       <a href="/Dashboard/Months/May">May</a>
