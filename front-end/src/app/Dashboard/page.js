@@ -146,7 +146,7 @@ export default function Dashboard() {
           />
         </div>
       </div>
-      <hr style={{marginTop: "30px"}}/>
+      {/* <hr style={{marginTop: "30px"}}/>
       <div className="topbar">
           <a onClick={openModal}>+</a>
           <AddModuleModal isOpen={isOpen} onClose={closeModal} onSubmit={onSubmitClick}>
@@ -158,7 +158,7 @@ export default function Dashboard() {
         <h4>Working here</h4>
         <h4>Working here</h4>
         <h4>Working here</h4>
-      </div>
+      </div> */}
     </>
   )
 }
