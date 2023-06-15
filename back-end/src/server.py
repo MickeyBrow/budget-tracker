@@ -53,6 +53,7 @@ def getData():
     data[doc.id] = doc.to_dict()
   
   data = formatMonthData(data)
-  data = formatDataResponse(data)
+  ExpenseTotals = totalPerExpenseCategory(data)
+  data = formatDataResponse(data, ExpenseTotals)
 
   return data

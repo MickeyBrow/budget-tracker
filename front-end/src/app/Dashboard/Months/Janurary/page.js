@@ -24,10 +24,24 @@ export default function Janurary() {
     setIsLoading(false)
   },[])
 
+  if (isLoading) return <p>Loading...</p>
+  if (!incomeData) return <p>Broken.</p>
+
+  const income_amount_array = incomeData.Income_amount
+  const income_category_array = incomeData.Income_category
+  const expense_amount_array = incomeData.Expense_amount
+  const expense_category_array = incomeData.Expense_category
+  const bill_amount_array = incomeData.Bill_amount
+  const bill_category_array = incomeData.Bill_category
+  const ExpenseTotals = incomeData.Expense_totals
+
+  console.log(ExpenseTotals)
+  console.log(Object.keys(ExpenseTotals))
+  console.log(Object.values(ExpenseTotals))
   const data = {
-    labels: ["Groceries", "Entertainment", "Bills", "Eating Out"],
+    labels: Object.keys(ExpenseTotals),
     datasets: [{
-      data: [300, 50, 100, 20],
+      data: Object.values(ExpenseTotals),
       backgroundColor: [
       'rgb(0,0,255)',
       'rgb(255,0,0)',
@@ -43,17 +57,6 @@ export default function Janurary() {
     }]
   };
 
-  if (isLoading) return <p>Loading...</p>
-  if (!incomeData) return <p>Broken.</p>
-
-  const income_amount_array = incomeData.Income_amount
-  const income_category_array = incomeData.Income_category
-  const expense_amount_array = incomeData.Expense_amount
-  const expense_category_array = incomeData.Expense_category
-  const bill_amount_array = incomeData.Bill_amount
-  const bill_category_array = incomeData.Bill_category
-
-  console.log(income_amount_array)
   return (
     <>
       <h4>Overview:</h4>

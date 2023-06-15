@@ -8,7 +8,19 @@ def formatMonthData(data):
   
   return data
 
-def formatDataResponse(data):
+def totalPerExpenseCategory(data):
+  response = {
+    'Groceries': 0,
+    'Entertainment': 0,
+    'Eating Out': 0,
+  }
+
+  for pair in data['Expense']:
+    response[pair[1]] += float(pair[0][1:]) 
+  
+  return response
+
+def formatDataResponse(data, ExpenseTotals):
   response = {
     'Income_amount': [],
     'Income_category': [],
@@ -16,6 +28,7 @@ def formatDataResponse(data):
     'Expense_category': [],
     'Bill_amount': [],
     'Bill_category': [],
+    'Expense_totals': ExpenseTotals,
   }
 
   for table in data:
