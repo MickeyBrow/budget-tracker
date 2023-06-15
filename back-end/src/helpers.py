@@ -37,3 +37,9 @@ def formatDataResponse(data, ExpenseTotals):
       response[f'{table}_category'].append(pair[1])
   
   return response
+
+def formatSummaryData(data):
+  for table in data:
+    data[table] = data[table]['total']
+  
+  return data

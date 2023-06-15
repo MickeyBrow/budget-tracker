@@ -57,3 +57,24 @@ def getData():
   data = formatDataResponse(data, ExpenseTotals)
 
   return data
+
+@app.route('/dashboard', methods=['GET'])
+def getDashboardData():
+  # This will be where we get the data for a specific month. Need a param here in the url so I can see what months data needs to be grabbed
+  uid = request.args.get('uid')
+  
+  months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+  data = {}
+  response = {}
+
+  for month in months:
+    temp_ref = db.collection(uid).document('Dashboard').collection(month)
+
+    docs = temp_ref.stream()
+    for doc in docs:
+      data[doc.id] = doc.to_dict()
+    
+    data = formatSummaryData(data)
+    response[month] = data
+
+  return response
