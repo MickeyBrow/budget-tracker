@@ -17,6 +17,7 @@ const AddDataModal = ({ isOpen, onClose }) => {
   };
 
   const monthList = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] 
+  const account_uid = "seed"
 
   const secondPageChoiceSwitch = (choice) => {
     switch(choice) {
@@ -33,7 +34,6 @@ const AddDataModal = ({ isOpen, onClose }) => {
             <option value="">---</option>
             <option>Groceries</option>
             <option>Entertainment</option>
-            <option>Bills</option>
             <option>Eating Out</option>
           </>
         );
@@ -91,7 +91,7 @@ const AddDataModal = ({ isOpen, onClose }) => {
     else setCategoryInvalid(false);
 
     // Pass the values to firebase to get in the DB
-    const onSubmitApiLink = `http://127.0.0.1:5000/data?uid=3&table=${firstPageChoice}`
+    const onSubmitApiLink = `http://127.0.0.1:5000/data?uid=${account_uid}&table=${firstPageChoice}`
     fetch(onSubmitApiLink, {
       method: 'POST',
       body: JSON.stringify({

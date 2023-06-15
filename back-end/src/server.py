@@ -53,5 +53,6 @@ def getData():
     data[doc.id] = doc.to_dict()
   
   data = formatMonthData(data)
+  data = formatDataResponse(data)
 
-  return {'data': data}
+  return data
