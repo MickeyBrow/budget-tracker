@@ -78,20 +78,3 @@ def getDashboardData():
     response[month] = ExpenseTotals
 
   return response
-
-@app.route('/signIn', methods=['POST'])
-def checkAuth():
-  data = request.json
-
-  user = auth.sign_in_with_email_and_password(data['user-username'], data['user-password'])
-  print(user)
-
-  return {}
-
-@app.route('/signUp', methods=['POST'])
-def createNewUser():
-  data = request.json
-
-  auth.create_user(email = data['user-username'], password = data['user-password'])
-
-  return {}
