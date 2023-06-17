@@ -1,39 +1,41 @@
 "use client"
 import './page.css'
+import firebase_app from '@/config';
 import { useState } from 'react';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation'
 
 const SignInPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [signInPage, setSignInPage] = useState(true);
 
+  let router = useRouter();
+
   const handleOnSignIn = (e) => {
     e.preventDefault();
 
     // Add your sign-in logic here
-    console.log('Email:', email);
-    console.log('Password:', password);
+    const auth = getAuth(firebase_app);
+    signInWithEmailAndPassword(auth, username, password)
+    .then((userCredential) => {
+      // redirect to dashboard page
+      router.push('/Dashboard')
+
+    })
   };
   
   const handleOnSignUp = (e) => {
     e.preventDefault();
 
     // Add your sign-in logic here
-    const onSignUpApiLink = `http://127.0.0.1:5000/signUp`
-    fetch(onSignUpApiLink, {
-      method: 'POST',
-      body: JSON.stringify({
-        user_username: username,
-        user_password: password
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
+    const auth = getAuth(firebase_app);
+    createUserWithEmailAndPassword(auth, username, password)
+    .then((userCredential) => {
+      // create a spot in the db for this user with an api call
+      print(userCredential)
     })
-
-    console.log('Email:', email);
-    console.log('Password:', password);
-
     setSignInPage(true)
   };
 
