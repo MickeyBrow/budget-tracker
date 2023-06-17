@@ -4,7 +4,7 @@ import uuid
 from helpers import *
 from flask import Flask, request
 from flask_cors import CORS
-from firebase_admin import credentials, firestore
+from firebase_admin import credentials, firestore, auth
 
 cred = credentials.Certificate("../secrets/serviceAccountKey.json")
 app = firebase_admin.initialize_app(cred)
@@ -60,7 +60,6 @@ def getData():
 
 @app.route('/dashboard', methods=['GET'])
 def getDashboardData():
-  # This will be where we get the data for a specific month. Need a param here in the url so I can see what months data needs to be grabbed
   uid = request.args.get('uid')
   
   months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
@@ -79,3 +78,20 @@ def getDashboardData():
     response[month] = ExpenseTotals
 
   return response
+
+@app.route('/signIn', methods=['POST'])
+def checkAuth():
+  data = request.json
+
+  user = auth.sign_in_with_email_and_password(data['user-username'], data['user-password'])
+  print(user)
+
+  return {}
+
+@app.route('/signUp', methods=['POST'])
+def createNewUser():
+  data = request.json
+
+  auth.create_user(email = data['user-username'], password = data['user-password'])
+
+  return {}
