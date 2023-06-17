@@ -3,7 +3,6 @@ import './page.css'
 import firebase_app from '@/config';
 import { useState } from 'react';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { redirect } from 'next/navigation';
 import { useRouter } from 'next/navigation'
 
 const SignInPage = () => {
@@ -19,7 +18,7 @@ const SignInPage = () => {
     // Add your sign-in logic here
     const auth = getAuth(firebase_app);
     signInWithEmailAndPassword(auth, username, password)
-    .then((userCredential) => {
+    .then(() => {
       // redirect to dashboard page
       router.push('/Dashboard')
 
@@ -29,14 +28,23 @@ const SignInPage = () => {
   const handleOnSignUp = (e) => {
     e.preventDefault();
 
-    // Add your sign-in logic here
+    // Add your sign-up logic here
     const auth = getAuth(firebase_app);
     createUserWithEmailAndPassword(auth, username, password)
     .then((userCredential) => {
       // create a spot in the db for this user with an api call
-      print(userCredential)
+      const createNewUserLink = `http://127.0.0.1:5000/signUp`
+      fetch(createNewUserLink, {
+        method: 'POST',
+        body: JSON.stringify({
+          uid: userCredential.user.uid
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(() => setSignInPage(true))
     })
-    setSignInPage(true)
   };
 
   return (

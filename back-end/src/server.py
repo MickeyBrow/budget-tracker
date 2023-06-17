@@ -78,3 +78,19 @@ def getDashboardData():
     response[month] = ExpenseTotals
 
   return response
+
+@app.route('/signUp', methods=['POST'])
+def createNewUser():
+  data = request.json
+
+  months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+  table = ['Income', 'Expense', 'Bill']
+  response = {}
+
+  for month in months:
+    temp_ref = db.collection(data['uid']).document('Dashboard').collection(month)
+
+    for section in table:
+      temp_ref.document(section).set({'total': 0})
+
+  return response
