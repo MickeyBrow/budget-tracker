@@ -2,29 +2,38 @@
 
 import 'chart.js/auto';
 import './page.css'
+import firebase_app from '@/config';
 import React, { useEffect, useState } from 'react';
 import {Doughnut} from 'react-chartjs-2';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useRouter } from 'next/navigation'
 
 export default function Janurary() {
-  const account_uid = "seed"
-  const getMonthDataLink = `http://127.0.0.1:5000/data?uid=${account_uid}&month=January`
-
   const [incomeData, setIncomeData] = useState()
-  const [isLoading, setIsLoading] = useState(false)
+  const [accountUid, setAccountUid] = useState("")
+
+  let router = useRouter();
 
   useEffect(() => {
     const fetchTableData = async () => {
+      const auth = getAuth(firebase_app)
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          setAccountUid(user.uid)
+        }
+        else{
+          router.push('/')
+        }
+      })
+      const getMonthDataLink = `http://127.0.0.1:5000/data?uid=${accountUid}&month=January`
       await fetch(getMonthDataLink)
       .then((response) => {return response.json()})
       .then((data) => {setIncomeData(data)})
     }
 
-    setIsLoading(true)
     fetchTableData().catch(console.error)
-    setIsLoading(false)
   },[])
 
-  if (isLoading) return <p>Loading...</p>
   if (!incomeData) return <p>No Data for this Month Yet!</p>
 
   const income_amount_array = incomeData.Income_amount

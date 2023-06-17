@@ -1,5 +1,8 @@
 import './../componentStyles/addDataModal.css'
+import firebase_app from '@/config';
 import { useState } from 'react';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useRouter } from 'next/navigation'
 
 const AddDataModal = ({ isOpen, onClose }) => {
   if (!isOpen) {
@@ -11,13 +14,25 @@ const AddDataModal = ({ isOpen, onClose }) => {
   const [amountInvalid, setAmountInvalid] = useState(false);
   const [categoryInvalid, setCategoryInvalid] = useState(false);
 
+  let router = useRouter();
+  const monthList = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] 
+  var account_uid = ""
+
+  const auth = getAuth(firebase_app)
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      account_uid = user.uid
+    }
+    else{
+      router.push('/')
+    }
+  })
+
+
   const closeModal = () => {
     setFirstPage(true);
     onClose();
   };
-
-  const monthList = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] 
-  const account_uid = "seed"
 
   const secondPageChoiceSwitch = (choice) => {
     switch(choice) {

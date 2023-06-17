@@ -2,13 +2,15 @@
 
 import 'chart.js/auto';
 import './page.css'
+import firebase_app from '@/config';
 import React, {useState, useEffect } from 'react';
 import {Doughnut, Bar, Line} from 'react-chartjs-2';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useRouter } from 'next/navigation'
 import AddModuleModal from '@/components/addModuleModal';
 
 export default function Dashboard() {
-  const account_uid = "seed"
-  const getSummaryDataLink = `http://127.0.0.1:5000/dashboard?uid=${account_uid}`
+  let router = useRouter();
   const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
   
   const lineData = {
@@ -21,9 +23,20 @@ export default function Dashboard() {
   
   const [isOpen, setIsOpen] = useState(false);
   const [response, setResponse] = useState();
+  const [accountUid, setAccountUid] = useState("")
 
   useEffect(() => {
     const fetchTableData = async () => {
+      const auth = getAuth(firebase_app)
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          setAccountUid(user.uid)
+        }
+        else{
+          router.push('/')
+        }
+      })
+      const getSummaryDataLink = `http://127.0.0.1:5000/dashboard?uid=${accountUid}`
       await fetch(getSummaryDataLink)
       .then((response) => {return response.json()})
       .then((data) => {setResponse(data)})
