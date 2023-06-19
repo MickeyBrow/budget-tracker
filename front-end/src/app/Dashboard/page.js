@@ -53,7 +53,7 @@ export default function Dashboard() {
 
 
   if(!response){
-    return <p>Broken.</p>
+    return <p>Loading..</p>
   }
   else {
     months.map((month) => {
