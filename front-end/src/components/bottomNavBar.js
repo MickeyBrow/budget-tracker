@@ -1,22 +1,25 @@
+'use client'
 import './../componentStyles/bottomNavBar.css'
+import { usePathname, useRouter } from 'next/navigation';
 
 const BottomNavBar = () => {
+  const monthList = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] 
+  let pathname = usePathname().split('/')
+  let router = useRouter()
+
+  const bottomNav = (month) => {
+    if (month == pathname[pathname.length-1]) return <a className="active" onClick={() => router.push(`/Dashboard/Months/${month}`)}>{month}</a>
+    else return <a onClick={() => router.push(`/Dashboard/Months/${month}`)}>{month}</a>
+  };
 
   return (
     <div className="bottomnav">
-      <a href="/Dashboard">Summary</a>
-      <a href="/Dashboard/Months/Janurary">Janurary</a>
-      <a href="/Dashboard/Months/February">February</a>
-      <a href="/Dashboard/Months/March">March</a>
-      <a href="/Dashboard/Months/April">April</a>
-      <a href="/Dashboard/Months/May">May</a>
-      <a href="/Dashboard/Months/June">June</a>
-      <a href="/Dashboard/Months/July">July</a>
-      <a href="/Dashboard/Months/August">August</a>
-      <a href="/Dashboard/Months/September">September</a>
-      <a href="/Dashboard/Months/October">October</a>
-      <a href="/Dashboard/Months/November">November</a>
-      <a href="/Dashboard/Months/December">December</a>
+      {pathname[pathname.length-1] == "Dashboard" ?
+        <a href="/Dashboard" className="active">Summary</a>
+      :
+        <a href="/Dashboard">Summary</a>
+      }
+      {monthList.map((month) => bottomNav(month))}
     </div>
   );
 };
