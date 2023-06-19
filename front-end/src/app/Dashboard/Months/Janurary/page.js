@@ -10,31 +10,31 @@ import { useRouter } from 'next/navigation'
 
 export default function Janurary() {
   const [incomeData, setIncomeData] = useState()
-  const [accountUid, setAccountUid] = useState("")
 
   let router = useRouter();
 
   useEffect(() => {
-    const fetchTableData = async () => {
+    const apiCall = (uid) => {
+      fetch(`http://127.0.0.1:5000/data?uid=${uid}&month=January`)
+      .then((response) => response.json())
+      .then((data) => {setIncomeData(data)})
+    }
+    const fetchTableData = () => {
       const auth = getAuth(firebase_app)
       onAuthStateChanged(auth, (user) => {
         if (user) {
-          setAccountUid(user.uid)
+          apiCall(user.uid)
         }
         else{
           router.push('/')
         }
       })
-      const getMonthDataLink = `http://127.0.0.1:5000/data?uid=${accountUid}&month=January`
-      await fetch(getMonthDataLink)
-      .then((response) => {return response.json()})
-      .then((data) => {setIncomeData(data)})
     }
 
-    fetchTableData().catch(console.error)
+    fetchTableData()
   },[])
 
-  if (!incomeData) return <p>No Data for this Month Yet!</p>
+  if (!incomeData) return <p>Loading...</p>
 
   const income_amount_array = incomeData.Income_amount
   const income_category_array = incomeData.Income_category
