@@ -8,14 +8,14 @@ import {Doughnut} from 'react-chartjs-2';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useRouter } from 'next/navigation'
 
-export default function January() {
+export default function March() {
   const [incomeData, setIncomeData] = useState()
 
   let router = useRouter();
 
   useEffect(() => {
     const apiCall = (uid) => {
-      fetch(`http://127.0.0.1:5000/data?uid=${uid}&month=January`)
+      fetch(`http://127.0.0.1:5000/data?uid=${uid}&month=March`)
       .then((response) => response.json())
       .then((data) => {setIncomeData(data)})
     }
