@@ -23,26 +23,32 @@ export default function Dashboard() {
   
   const [isOpen, setIsOpen] = useState(false);
   const [response, setResponse] = useState();
-  const [accountUid, setAccountUid] = useState("")
 
   useEffect(() => {
-    const fetchTableData = async () => {
-      const auth = getAuth(firebase_app)
-      onAuthStateChanged(auth, (user) => {
-        if (user) {
-          setAccountUid(user.uid)
-        }
-        else{
-          router.push('/')
-        }
-      })
-      const getSummaryDataLink = `http://127.0.0.1:5000/dashboard?uid=${accountUid}`
-      await fetch(getSummaryDataLink)
-      .then((response) => {return response.json()})
-      .then((data) => {setResponse(data)})
-    }
+    if (!response){
+      const fetchTableData = (uid) => {
+        fetch(`http://127.0.0.1:5000/dashboard?uid=${uid}`)
+        .then((response) => response.json())
+        .then((data) => setResponse(data))
+      }
+  
+      const checkUser = () => {
+        const auth = getAuth(firebase_app)
+        onAuthStateChanged(auth, (user) => {
+          if (user) {
+            // User is signed in
+            fetchTableData(user.uid)
+            // Perform actions for authenticated user
+          } else {
+            // User is signed out
+            router.push('/')
+            // Perform actions for non-authenticated user
+          }
+        })
+      }
 
-    fetchTableData().catch(console.error)
+      checkUser()
+    }
   },[])
 
 
