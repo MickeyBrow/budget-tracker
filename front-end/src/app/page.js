@@ -6,7 +6,7 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } f
 import { useRouter } from 'next/navigation'
 
 const SignInPage = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [signInPage, setSignInPage] = useState(true);
 
@@ -17,11 +17,21 @@ const SignInPage = () => {
 
     // Add your sign-in logic here
     const auth = getAuth(firebase_app);
-    signInWithEmailAndPassword(auth, username, password)
+    signInWithEmailAndPassword(auth, email, password)
     .then(() => {
       // redirect to dashboard page
       router.push('/Dashboard')
 
+    })
+    .catch((error) => {
+      switch(error.code){
+        case "auth/user-not-found":
+          alert("No user with this email exist.")
+          break
+        case "auth/wrong-password":
+          alert("Inccorrect Password")
+          break
+      }
     })
   };
   
@@ -30,7 +40,7 @@ const SignInPage = () => {
 
     // Add your sign-up logic here
     const auth = getAuth(firebase_app);
-    createUserWithEmailAndPassword(auth, username, password)
+    createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // create a spot in the db for this user with an api call
       const createNewUserLink = `http://127.0.0.1:5000/signUp`
@@ -45,6 +55,17 @@ const SignInPage = () => {
       })
       .then(() => setSignInPage(true))
     })
+    .catch((error) => {
+      console.log("error", error.code)
+      switch(error.code){
+        case "auth/weak-password":
+          alert("The password must be 6 characters long.")
+          break
+        case "auth/email-already-in-use":
+          alert("User with this email already exists.")
+          break
+      }
+    })
   };
 
   return (
@@ -56,12 +77,13 @@ const SignInPage = () => {
           <h1>Sign In</h1>
           <form onSubmit={handleOnSignIn}>
             <div style={{'marginBottom': "10%"}}>
-              <label htmlFor="username">Username:</label>
+              <label htmlFor="email">Email:</label>
               <input
-                type="username"
-                id="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                
               />
             </div>
             <div>
@@ -88,12 +110,12 @@ const SignInPage = () => {
           <h1>Sign Up</h1>
           <form onSubmit={handleOnSignUp}>
             <div style={{'marginBottom': "10%"}}>
-              <label htmlFor="username">Username:</label>
+              <label htmlFor="email">Email:</label>
               <input
-                type="username"
-                id="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div>
