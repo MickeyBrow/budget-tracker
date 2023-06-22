@@ -1,6 +1,6 @@
 "use client"
 import './page.css'
-import firebase_app from '@/config';
+import { firebase_app, api_links } from '@/config';
 import { useState } from 'react';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from 'next/navigation'
@@ -43,7 +43,7 @@ const SignInPage = () => {
     createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // create a spot in the db for this user with an api call
-      const createNewUserLink = `http://127.0.0.1:5000/signUp`
+      const createNewUserLink = api_links.login
       fetch(createNewUserLink, {
         method: 'POST',
         body: JSON.stringify({

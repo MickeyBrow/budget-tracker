@@ -2,7 +2,7 @@
 
 import 'chart.js/auto';
 import './page.css'
-import firebase_app from '@/config';
+import { firebase_app, api_links } from '@/config';
 import React, { useEffect, useState } from 'react';
 import {Doughnut} from 'react-chartjs-2';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -15,7 +15,7 @@ export default function November() {
 
   useEffect(() => {
     const apiCall = (uid) => {
-      fetch(`http://127.0.0.1:5000/data?uid=${uid}&month=November`)
+      fetch(api_links.data + `?uid=${uid}&month=November`)
       .then((response) => response.json())
       .then((data) => {setIncomeData(data)})
     }
