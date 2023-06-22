@@ -1,6 +1,5 @@
 import firebase_admin
 import uuid
-import json
 
 from dotenv import load_dotenv
 load_dotenv()

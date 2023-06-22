@@ -1,4 +1,7 @@
-/env
-/secrets
-/src/__pycache__
+env/src/__pycache__
+env/bin
+env/include
+env/lib
+env/pyvenv.cfg
 .env
+.vercel
