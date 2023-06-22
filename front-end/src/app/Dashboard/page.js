@@ -2,7 +2,7 @@
 
 import 'chart.js/auto';
 import './page.css'
-import firebase_app from '@/config';
+import { firebase_app, api_links} from '@/config';
 import React, {useState, useEffect } from 'react';
 import {Doughnut, Bar, Line} from 'react-chartjs-2';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -27,7 +27,7 @@ export default function Dashboard() {
   useEffect(() => {
     if (!response){
       const fetchTableData = (uid) => {
-        fetch(`http://127.0.0.1:5000/dashboard?uid=${uid}`)
+        fetch(api_links.dashboard + `?uid=${uid}`)
         .then((response) => response.json())
         .then((data) => setResponse(data))
       }
@@ -56,6 +56,7 @@ export default function Dashboard() {
     return <p>Loading..</p>
   }
   else {
+    console.log("response", response)
     months.map((month) => {
       lineData['Groceries'].push(response[month]['Groceries'])
       groceries_sum += response[month]['Groceries']

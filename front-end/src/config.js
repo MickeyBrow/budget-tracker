@@ -12,6 +12,14 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-let firebase_app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+export let firebase_app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
-export default firebase_app;
+// ------------------------------------- //
+
+const baseUrl = process.env.NEXT_PUBLIC_FLASKURL
+
+export const api_links = {
+  login: `${baseUrl}/signUp`,
+  dashboard: `${baseUrl}/dashboard`,
+  data: `${baseUrl}/data`
+}

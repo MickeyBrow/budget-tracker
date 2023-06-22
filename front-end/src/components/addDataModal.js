@@ -1,5 +1,5 @@
 import './../componentStyles/addDataModal.css'
-import firebase_app from '@/config';
+import { firebase_app, api_links} from '@/config';
 import { useState } from 'react';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useRouter } from 'next/navigation'
@@ -106,7 +106,7 @@ const AddDataModal = ({ isOpen, onClose }) => {
     else setCategoryInvalid(false);
 
     // Pass the values to firebase to get in the DB
-    const onSubmitApiLink = `http://127.0.0.1:5000/data?uid=${account_uid}&table=${firstPageChoice}`
+    const onSubmitApiLink = api_links.data + `?uid=${account_uid}&table=${firstPageChoice}`
     fetch(onSubmitApiLink, {
       method: 'POST',
       body: JSON.stringify({
