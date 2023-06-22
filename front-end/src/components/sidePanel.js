@@ -16,7 +16,7 @@ const SidePanel = () => {
     <>
       <div class="sidenav">
         <a href="/Dashboard">Dashboard</a>
-        <a href="/Investments">Investments</a>
+        {/* <a href="/Investments">Investments</a> */}
         <a style={{'cursor': "pointer"}} onClick={handleSignOut}>Sign Out</a>
       </div>
     </>

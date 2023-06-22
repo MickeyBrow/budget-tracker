@@ -3,5 +3,5 @@ env/bin
 env/include
 env/lib
 env/pyvenv.cfg
+env/.vercel
 .env
-.vercel
