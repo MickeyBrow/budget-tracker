@@ -1,3 +1,4 @@
 /env
 /secrets
 /src/__pycache__
+.env
