@@ -1,6 +1,6 @@
 'use client'
-import '../componentStyles/sidePanel.module.css'
-import firebase_app from '@/config';
+import './../componentStyles/sidePanel.css'
+import { firebase_app } from '@/config';
 import { useRouter } from 'next/navigation'
 import { signOut, getAuth } from "firebase/auth";
 
