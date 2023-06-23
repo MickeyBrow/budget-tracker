@@ -75,7 +75,7 @@ const AddDataModal = ({ isOpen, onClose }) => {
       setAmountInvalid(true);
       return;
     }
-    var numCheck = str.slice(1);
+    var numCheck = str.slice(1).replace('.', '');
     numCheck = Number(numCheck);
     if (!Number.isInteger(numCheck)) {
       setAmountInvalid(true);
