@@ -114,7 +114,7 @@ const AddDataModal = ({ isOpen, onClose }) => {
         amount: amount_choice,
         category: category_choice,
         month: month_choice,
-        date: `${today.getDate()}-${today.getMonth()}-${today.getFullYear()}`
+        date: `${today.getMonth()}-${today.getDate()}-${today.getFullYear()}`
       }),
       headers: {
         'Content-Type': 'application/json'
