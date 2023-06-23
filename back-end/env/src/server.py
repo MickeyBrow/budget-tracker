@@ -32,8 +32,8 @@ db = firestore.client()
 # helper funtions 
 
 def formatMonthData(data):
-  def helper(pair):
-    return pair.split('/')
+  def helper(quad):
+    return quad.split('/')
 
   for table in data:
     del data[table]['total']
@@ -48,8 +48,8 @@ def totalPerExpenseCategory(data):
     'Eating Out': 0,
   }
 
-  for pair in data['Expense']:
-    response[pair[1]] += float(pair[0][1:]) 
+  for quad in data['Expense']:
+    response[quad[1]] += float(quad[0][1:]) 
   
   return response
 
@@ -58,20 +58,24 @@ def formatDataResponse(data, ExpenseTotals):
     'Income_amount': [],
     'Income_category': [],
     'Income_date': [],
+    'Income_uids': [],
     'Expense_amount': [],
     'Expense_category': [],
     'Expense_date': [],
+    'Expense_uids': [],
     'Bill_amount': [],
     'Bill_category': [],
     'Bill_date': [],
+    'Bill_uids': [],
     'Expense_totals': ExpenseTotals,
   }
 
   for table in data:
-    for pair in data[table]:
-      response[f'{table}_amount'].append(pair[0])
-      response[f'{table}_category'].append(pair[1])
-      response[f'{table}_date'].append(pair[2])
+    for quad in data[table]:
+      response[f'{table}_amount'].append(quad[0])
+      response[f'{table}_category'].append(quad[1])
+      response[f'{table}_date'].append(quad[2])
+      response[f'{table}_uids'].append(quad[3])
   
   return response
 
@@ -103,7 +107,7 @@ def addData():
     current = {}
 
   id = str(uuid.uuid4())
-  current["amount/category/date" + id] = data['amount'] + "/" + data['category'] + "/" + data['date']
+  current["amount/category/date/" + id] = data['amount'] + "/" + data['category'] + "/" + data['date'] + "/" + id
   temp_ref.set(current)
 
   temp_ref.update({'total': firestore.Increment(float(data['amount'][1:]))})
@@ -127,6 +131,23 @@ def getData():
   data = formatDataResponse(data, ExpenseTotals)
 
   return data
+
+@app.route('/data', methods=['DELETE'])
+def deleteData():
+  uid, month = request.args.get('uid'), request.args.get('month')
+  data = request.json
+
+  field = db.field_path('amount/category/date/{}'.format(data['deleteUid']))
+
+  temp_ref = db.collection(uid).document('Dashboard').collection(month).document(data['table'])
+  amount = data['amount']
+  print(amount)
+  temp_ref.update({
+    'total': firestore.Increment(-float(data['amount'][1:])),
+    field: firestore.DELETE_FIELD
+  })
+  
+  return {}
 
 @app.route('/dashboard', methods=['GET'])
 def getDashboardData():
