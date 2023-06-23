@@ -5,16 +5,16 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useRouter } from 'next/navigation'
 
 const AddDataModal = ({ isOpen, onClose }) => {
-  if (!isOpen) {
-    return null;
-  }
-
   const [firstPage, setFirstPage] = useState(true);
   const [firstPageChoice, setFirstPageChoice] = useState();
   const [amountInvalid, setAmountInvalid] = useState(false);
   const [categoryInvalid, setCategoryInvalid] = useState(false);
 
   let router = useRouter();
+  if (!isOpen) {
+    return null;
+  }
+  
   const monthList = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] 
   var account_uid = ""
 
