@@ -38,10 +38,13 @@ export default function January() {
 
   const income_amount_array = incomeData.Income_amount
   const income_category_array = incomeData.Income_category
+  const income_date_array = incomeData.Income_date
   const expense_amount_array = incomeData.Expense_amount
   const expense_category_array = incomeData.Expense_category
+  const expense_date_array = incomeData.Expense_date
   const bill_amount_array = incomeData.Bill_amount
   const bill_category_array = incomeData.Bill_category
+  const bill_date_array = incomeData.Bill_date
   const ExpenseTotals = incomeData.Expense_totals
 
   const data = {
@@ -73,12 +76,14 @@ export default function January() {
             <div className="header">
               <div className="table-cell">Amount</div>
               <div className="table-cell">Category</div>
+              <div className="table-cell">Date</div>
             </div>
             {income_amount_array && income_amount_array.map((item, i) => {return (
               <>
                 <div className='table-row'>
                   <div className="table-cell">{item}</div>
                   <div className="table-cell">{income_category_array[i]}</div>
+                  <div className="table-cell">{income_date_array[i]}</div>
                 </div>
               </>
             )})}
@@ -88,12 +93,14 @@ export default function January() {
             <div className="header">
               <div className="table-cell">Amount</div>
               <div className="table-cell">Category</div>
+              <div className="table-cell">Date</div>
             </div>
             {expense_amount_array && expense_amount_array.map((item, i) => {return (
               <>
                 <div className='table-row'>
                   <div className="table-cell">{item}</div>
                   <div className="table-cell">{expense_category_array[i]}</div>
+                  <div className="table-cell">{expense_date_array[i]}</div>
                 </div>
               </>
             )})}
@@ -104,12 +111,14 @@ export default function January() {
             <div className="header">
               <div className="table-cell">Amount</div>
               <div className="table-cell">Category</div>
+              <div className="table-cell">Date</div>
             </div>
             {bill_amount_array && bill_amount_array.map((item, i) => {return (
               <>
                 <div className='table-row'>
                   <div className="table-cell">{item}</div>
                   <div className="table-cell">{bill_category_array[i]}</div>
+                  <div className="table-cell">{bill_date_array[i]}</div>
                 </div>
               </>
             )})}

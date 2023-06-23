@@ -57,10 +57,13 @@ def formatDataResponse(data, ExpenseTotals):
   response = {
     'Income_amount': [],
     'Income_category': [],
+    'Income_date': [],
     'Expense_amount': [],
     'Expense_category': [],
+    'Expense_date': [],
     'Bill_amount': [],
     'Bill_category': [],
+    'Bill_date': [],
     'Expense_totals': ExpenseTotals,
   }
 
@@ -68,6 +71,7 @@ def formatDataResponse(data, ExpenseTotals):
     for pair in data[table]:
       response[f'{table}_amount'].append(pair[0])
       response[f'{table}_category'].append(pair[1])
+      response[f'{table}_date'].append(pair[2])
   
   return response
 
@@ -99,7 +103,7 @@ def addData():
     current = {}
 
   id = str(uuid.uuid4())
-  current["amount/category/" + id] = data['amount'] + "/" + data['category']
+  current["amount/category/date" + id] = data['amount'] + "/" + data['category'] + "/" + data['date']
   temp_ref.set(current)
 
   temp_ref.update({'total': firestore.Increment(float(data['amount'][1:]))})

@@ -17,6 +17,7 @@ const AddDataModal = ({ isOpen, onClose }) => {
 
   const monthList = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] 
   var account_uid = ""
+  let today = new Date()
 
   const auth = getAuth(firebase_app)
   onAuthStateChanged(auth, (user) => {
@@ -112,7 +113,8 @@ const AddDataModal = ({ isOpen, onClose }) => {
       body: JSON.stringify({
         amount: amount_choice,
         category: category_choice,
-        month: month_choice
+        month: month_choice,
+        date: `${today.getDate()}-${today.getMonth()}-${today.getFullYear()}`
       }),
       headers: {
         'Content-Type': 'application/json'
