@@ -14,7 +14,7 @@ const AddDataModal = ({ isOpen, onClose }) => {
   if (!isOpen) {
     return null;
   }
-  
+
   const monthList = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] 
   var account_uid = ""
 
@@ -168,7 +168,7 @@ const AddDataModal = ({ isOpen, onClose }) => {
               Month: <select id="month">
                 <option value="">---</option>
                 {monthList.map(function(month){
-                  return <option value={month}>{month}</option>
+                  return <option key={month} value={month}>{month}</option>
                 })}
               </select>
             </label>
