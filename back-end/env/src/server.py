@@ -141,7 +141,6 @@ def deleteData():
 
   temp_ref = db.collection(uid).document('Dashboard').collection(month).document(data['table'])
   amount = data['amount']
-  print(amount)
   temp_ref.update({
     'total': firestore.Increment(-float(data['amount'][1:])),
     field: firestore.DELETE_FIELD
