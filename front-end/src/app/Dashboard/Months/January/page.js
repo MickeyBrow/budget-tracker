@@ -85,7 +85,9 @@ export default function January() {
         'Content-Type': 'application/json'
       }
     })
-    .then(() => router.refresh)
+    .then(() => {
+      window.location.reload()
+    })
   }
 
   return (

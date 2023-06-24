@@ -38,3 +38,7 @@
   border-style: dashed;
   text-align: center;
 }
+.table-cell-delete :hover{
+  cursor: pointer;
+  background-color: gray;
+}
