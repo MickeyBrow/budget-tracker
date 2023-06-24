@@ -120,8 +120,10 @@ const AddDataModal = ({ isOpen, onClose }) => {
         'Content-Type': 'application/json'
       }
     })
-    closeModal()
-    window.location.reload()
+    .then(() => {
+      closeModal()
+      window.location.reload()
+    })
   }
 
   return (
