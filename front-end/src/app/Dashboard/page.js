@@ -8,15 +8,28 @@ import {Doughnut, Bar, Line} from 'react-chartjs-2';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useRouter } from 'next/navigation'
 import AddModuleModal from '@/components/addModuleModal';
+import { Legend } from 'chart.js/auto';
 
 export default function Dashboard() {
   let router = useRouter();
   const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
   
   const lineData = {
+    'Shopping': [],
     'Groceries': [],
     'Entertainment': [],
-    'Eating Out': []
+    'Eating Out': [],
+    'Mortgage': [],
+    'Water Bill': [],
+    'Gas & Electric Bill': [],
+    'HOA': [],
+    'Internet': [],
+    'Phone': [],
+    'Cable': [],
+    'Gas': [],
+    'Car Insurance': [],
+    'Life Insurance': [],
+    'Credit Card': []
   }
 
   var groceries_sum = 0, entertainment_sum = 0, eating_out_sum = 0
@@ -56,23 +69,17 @@ export default function Dashboard() {
     return <p>Loading..</p>
   }
   else {
-    console.log("response", response)
     months.map((month) => {
-      lineData['Groceries'].push(response[month]['Groceries'])
-      groceries_sum += response[month]['Groceries']
-
-      lineData['Entertainment'].push(response[month]['Entertainment'])
-      entertainment_sum += response[month]['Entertainment']
-
-      lineData['Eating Out'].push(response[month]['Eating Out'])
-      eating_out_sum += response[month]['Eating Out']
+      Object.keys(lineData).forEach(element => {
+        lineData[element].push(response[month][element])
+      })
     })
   }  
 
   const data = {
-    labels: ["Groceries", "Entertainment", "Eating Out"],
+    labels: Object.keys(lineData),
     datasets: [{
-      data: [groceries_sum, entertainment_sum, eating_out_sum],
+      data: Object.keys(lineData).map(key => lineData[key].reduce((partialSum, a) => partialSum + a, 0)),
       backgroundColor: [
       'rgb(0,0,255)',
       'rgb(255,0,0)',
@@ -90,29 +97,17 @@ export default function Dashboard() {
 
   const line_data = {
     labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-    datasets: [
-      {
-      label: 'Groceries',
-      data: lineData['Groceries'],
-      fill: false,
-      borderColor: 'rgb(75, 192, 192)',
-      tension: 0.1
-      },
-      {
-        label: 'Entertainment',
-        data: lineData['Entertainment'],
-        fill: false,
-        borderColor: 'rgb(20, 100, 192)',
-        tension: 0.1
-      },
-      {
-        label: 'Eating Out',
-        data: lineData['Eating Out'],
-        fill: false,
-        borderColor: 'rgb(190, 87, 195)',
-        tension: 0.1
-      }
-    ]
+    datasets: Object.keys(lineData).map(key => {
+      return (
+        {
+          label: key,
+          data: lineData[key],
+          fill: false,
+          borderColor: 'rgb(75, 192, 192)',
+          tension: 0.1
+        }
+      )
+    })
   };
 
   const openModal = () => {
@@ -142,6 +137,9 @@ export default function Dashboard() {
                   title: {
                     display: true,
                     text: "Expense Breakdown Over Year"
+                  },
+                  legend: {
+                    display: false
                   }
                 }
               }
@@ -159,6 +157,9 @@ export default function Dashboard() {
                   title: {
                     display: true,
                     text: "Expense Breakdown Per Month"
+                  },
+                  legend: {
+                    display: false
                   }
                 }
               }
