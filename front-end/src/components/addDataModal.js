@@ -40,30 +40,39 @@ const AddDataModal = ({ isOpen, onClose }) => {
       case "Income":
         return (
           <>
-            <option value="">---</option>
-            <option>Paycheck</option>
+            <select id="category">
+              <option value="">---</option>
+              <option>Paycheck</option>
+            </select>
           </>
         );
       case "Expense":
         return (
           <>
-            <option value="">---</option>
-            <option>Groceries</option>
-            <option>Entertainment</option>
-            <option>Eating Out</option>
+            <select id="category">
+              <option value="">---</option>
+              <option>Shopping</option>
+              <option>Groceries</option>
+              <option>Entertainment</option>
+              <option>Eating Out</option>
+              <option>Mortgage</option>
+              <option>Water Bill</option>
+              <option>Gas & Electric Bill</option>
+              <option>HOA</option>
+              <option>Internet</option>
+              <option>Phone</option>
+              <option>Cable</option>
+              <option>Gas</option>
+              <option>Car Insurance</option>
+              <option>Life Insurance</option>
+              <option>Credit Card</option>
+            </select>
           </>
         );
-      case "Bill":
+      case "Other":
         return (
           <>
-            <option value="">---</option>
-            <option>Mortgage</option>
-            <option>Water & Gas</option>
-            <option>Electric</option>
-            <option>HOA</option>
-            <option>Internet</option>
-            <option>Phone</option>
-            <option>Cable</option>
+            <input id="category"/>
           </>
         );
     }
@@ -144,7 +153,7 @@ const AddDataModal = ({ isOpen, onClose }) => {
                 <option value="">---</option>
                 <option value="Income">Income</option>
                 <option value="Expense">Expense</option>
-                <option value="Bill">Bill</option>
+                <option value="Other">Other</option>
               </select>
             </label>
           </>
@@ -165,9 +174,7 @@ const AddDataModal = ({ isOpen, onClose }) => {
               Amount: <input id="amount" defaultValue="$" onChange={amountCheck}/>
             </label>
             <label style={{marginLeft: "10px"}}>
-              Category: <select id="category">
-                {secondPageChoiceSwitch(firstPageChoice)}
-              </select>
+              Category: {secondPageChoiceSwitch(firstPageChoice)}
             </label>
             <label style={{marginLeft: "10px"}}>
               Month: <select id="month">

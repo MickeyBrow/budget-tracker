@@ -4,7 +4,7 @@ import 'chart.js/auto';
 import './page.css'
 import { firebase_app, api_links } from '@/config';
 import React, { useEffect, useState } from 'react';
-import {Doughnut} from 'react-chartjs-2';
+import { Pie } from 'react-chartjs-2';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useRouter } from 'next/navigation'
 import { BiTrash } from "react-icons/bi";
@@ -14,10 +14,11 @@ export default function February() {
   const [accountUid, setAccountUid] = useState()
 
   let router = useRouter();
+  let month = "February"
 
   useEffect(() => {
     const apiCall = (uid) => {
-      fetch(api_links.data + `?uid=${uid}&month=February`)
+      fetch(api_links.data + `?uid=${uid}&month=${month}`)
       .then((response) => response.json())
       .then((data) => {setIncomeData(data)})
     }
@@ -47,10 +48,10 @@ export default function February() {
   const expense_category_array = incomeData.Expense_category
   const expense_date_array = incomeData.Expense_date
   const expense_uid_array = incomeData.Expense_uids
-  const bill_amount_array = incomeData.Bill_amount
-  const bill_category_array = incomeData.Bill_category
-  const bill_date_array = incomeData.Bill_date
-  const bill_uid_array = incomeData.Bill_uids
+  const other_amount_array = incomeData.Other_amount
+  const other_category_array = incomeData.Other_category
+  const other_date_array = incomeData.Other_date
+  const other_uid_array = incomeData.Other_uids
   const ExpenseTotals = incomeData.Expense_totals
 
   const data = {
@@ -73,7 +74,7 @@ export default function February() {
   };
 
   const handleDelete = (table, uid, amount) => {
-    const onDeleteApiCall = api_links.data + `?uid=${accountUid}&month=January`
+    const onDeleteApiCall = api_links.data + `?uid=${accountUid}&month=${month}`
     fetch(onDeleteApiCall, {
       method: 'DELETE',
       body: JSON.stringify({
@@ -135,27 +136,27 @@ export default function February() {
           </div>
 
           <div className="table">
-            <div className="title" style={{backgroundColor: "rgb(106, 220, 220)"}}>Bills</div>
+            <div className="title" style={{backgroundColor: "rgb(106, 220, 220)"}}>Other</div>
             <div className="header">
               <div className="table-cell">Amount</div>
               <div className="table-cell">Category</div>
               <div className="table-cell">Date</div>
               <div className="table-cell">Delete</div>
             </div>
-            {bill_amount_array && bill_amount_array.map((item, i) => {return (
+            {other_amount_array && other_amount_array.map((item, i) => {return (
               <>
                 <div className='table-row'>
                   <div className="table-cell">{item}</div>
-                  <div className="table-cell">{bill_category_array[i]}</div>
-                  <div className="table-cell">{bill_date_array[i]}</div>
-                  <button className="table-cell-delete" onClick={() => handleDelete("Bill", bill_uid_array[i], item)}><BiTrash/></button>
+                  <div className="table-cell">{other_category_array[i]}</div>
+                  <div className="table-cell">{other_date_array[i]}</div>
+                  <button className="table-cell-delete" onClick={() => handleDelete("Other", other_uid_array[i], item)}><BiTrash/></button>
                 </div>
               </>
             )})}
           </div>
         </div>
         <div className="rightSide">
-          <Doughnut
+          <Pie
           data={data}
           width={400}
           height={400}
@@ -164,7 +165,10 @@ export default function February() {
               plugins: {
                 title: {
                   display: true,
-                  text: "Expense Breakdown Over Month"
+                  text: "Monthly Expense Breakdown"
+                },
+                legend: {
+                  display: false
                 }
               }
             }

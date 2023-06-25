@@ -43,9 +43,21 @@ def formatMonthData(data):
 
 def totalPerExpenseCategory(data):
   response = {
+    'Shopping': 0,
     'Groceries': 0,
     'Entertainment': 0,
     'Eating Out': 0,
+    'Mortgage': 0,
+    'Water Bill': 0,
+    'Gas & Electric Bill': 0,
+    'HOA': 0,
+    'Internet': 0,
+    'Phone': 0,
+    'Cable': 0,
+    'Gas': 0,
+    'Car Insurance': 0,
+    'Life Insurance': 0,
+    'Credit Card': 0
   }
 
   for quad in data['Expense']:
@@ -63,10 +75,10 @@ def formatDataResponse(data, ExpenseTotals):
     'Expense_category': [],
     'Expense_date': [],
     'Expense_uids': [],
-    'Bill_amount': [],
-    'Bill_category': [],
-    'Bill_date': [],
-    'Bill_uids': [],
+    'Other_amount': [],
+    'Other_category': [],
+    'Other_date': [],
+    'Other_uids': [],
     'Expense_totals': ExpenseTotals,
   }
 
@@ -140,7 +152,6 @@ def deleteData():
   field = db.field_path('amount/category/date/{}'.format(data['deleteUid']))
 
   temp_ref = db.collection(uid).document('Dashboard').collection(month).document(data['table'])
-  amount = data['amount']
   temp_ref.update({
     'total': firestore.Increment(-float(data['amount'][1:])),
     field: firestore.DELETE_FIELD
@@ -174,7 +185,7 @@ def createNewUser():
   data = request.json
 
   months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-  table = ['Income', 'Expense', 'Bill']
+  table = ['Income', 'Expense', 'Other']
   response = {}
 
   for month in months:
