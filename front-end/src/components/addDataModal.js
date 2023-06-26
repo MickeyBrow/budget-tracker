@@ -40,10 +40,7 @@ const AddDataModal = ({ isOpen, onClose }) => {
       case "Income":
         return (
           <>
-            <select id="category">
-              <option value="">---</option>
-              <option>Paycheck</option>
-            </select>
+            <input id="category"/>
           </>
         );
       case "Expense":
