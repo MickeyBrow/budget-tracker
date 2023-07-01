@@ -18,7 +18,6 @@ const AddDataModal = ({ isOpen, onClose }) => {
   const monthList = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] 
   var account_uid = ""
   let today = new Date()
-  console.log("today", today.getMonth())
 
   const auth = getAuth(firebase_app)
   onAuthStateChanged(auth, (user) => {

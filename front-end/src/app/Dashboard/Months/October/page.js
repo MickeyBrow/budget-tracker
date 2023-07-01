@@ -9,12 +9,12 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useRouter } from 'next/navigation'
 import { BiTrash } from "react-icons/bi";
 
-export default function October() {
+export default function November() {
   const [incomeData, setIncomeData] = useState()
   const [accountUid, setAccountUid] = useState()
 
   let router = useRouter();
-  let month = "October"
+  let month = "November"
 
   useEffect(() => {
     const apiCall = (uid) => {
@@ -114,6 +114,9 @@ export default function October() {
                 </div>
               </>
             )})}
+            <div className="footer">
+              <div className="table-cell">Total: ${incomeData.income_total}</div>
+            </div>
           </div>
           <div className="table">
             <div className="title" style={{backgroundColor: "rgb(255, 0, 0)"}}>Expenses</div>
@@ -133,6 +136,9 @@ export default function October() {
                 </div>
               </>
             )})}
+            <div className="footer">
+              <div className="table-cell">Total: ${incomeData.expense_total}</div>
+            </div>
           </div>
 
           <div className="table">
@@ -153,6 +159,9 @@ export default function October() {
                 </div>
               </>
             )})}
+            <div className="footer">
+              <div className="table-cell">Total: ${incomeData.other_total}</div>
+            </div>
           </div>
         </div>
         <div className="rightSide">
