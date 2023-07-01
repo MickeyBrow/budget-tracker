@@ -31,6 +31,14 @@ db = firestore.client()
 ##########################################################################
 # helper funtions 
 
+def getTableTotals(data):
+  final = {}
+
+  for table in data:
+    final[table] = data[table]['total']
+  
+  return final
+
 def formatMonthData(data):
   def helper(quad):
     return quad.split('/')
@@ -65,7 +73,7 @@ def totalPerExpenseCategory(data):
   
   return response
 
-def formatDataResponse(data, ExpenseTotals):
+def formatDataResponse(data, ExpenseTotals, totals):
   response = {
     'Income_amount': [],
     'Income_category': [],
@@ -89,6 +97,10 @@ def formatDataResponse(data, ExpenseTotals):
       response[f'{table}_date'].append(quad[2])
       response[f'{table}_uids'].append(quad[3])
   
+  response['income_total'] = totals['Income']
+  response['expense_total'] = totals['Expense']
+  response['other_total'] = totals['Other']
+
   return response
 
 def formatSummaryData(data):
@@ -138,9 +150,11 @@ def getData():
   for doc in docs:
     data[doc.id] = doc.to_dict()
   
+  tableTotals = getTableTotals(data)
   data = formatMonthData(data)
   ExpenseTotals = totalPerExpenseCategory(data)
-  data = formatDataResponse(data, ExpenseTotals)
+  data = formatDataResponse(data, ExpenseTotals, tableTotals)
+
 
   return data
 
