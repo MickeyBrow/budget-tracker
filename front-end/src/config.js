@@ -21,5 +21,6 @@ const baseUrl = process.env.NEXT_PUBLIC_FLASKURL
 export const api_links = {
   login: `${baseUrl}/signUp`,
   dashboard: `${baseUrl}/dashboard`,
-  data: `${baseUrl}/data`
+  data: `${baseUrl}/data`,
+  investment: `${baseUrl}/investment`,
 }

@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  height: 500px;
+  width: 100%;
+  margin-left: 160px;
+}
+.leftSide {
+  width: 50%;
+}
+.rightSide {
+  width: 50%;
+}

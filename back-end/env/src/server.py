@@ -138,6 +138,26 @@ def addData():
 
   return {}
 
+@app.route('/investment', methods=['POST'])
+def addInvestmentData():
+  uid, table = request.args.get('uid'), request.args.get('table')
+  data = request.json
+
+  transation_uid = uuid.uuid4()
+  temp_ref = db.collection(uid).document('Investments').collection(table).document(str(transation_uid))
+  
+  packet = {
+    "ticker": data['ticker'],
+    "amount": data['amount'],
+    "price": data['price'],
+    "date": data['date'],
+    "uid": str(transation_uid),
+  }
+
+  temp_ref.set(packet)
+
+  return {}
+
 @app.route('/data', methods=['GET'])
 def getData():
   # This will be where we get the data for a specific month. Need a param here in the url so I can see what months data needs to be grabbed

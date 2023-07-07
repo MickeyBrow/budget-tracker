@@ -1,3 +1,5 @@
+'use client'
+
 import './../componentStyles/addDataModal.css'
 import { firebase_app, api_links} from '@/config';
 import { useState } from 'react';
