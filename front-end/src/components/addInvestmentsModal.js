@@ -61,7 +61,11 @@ const AddInvestmentsModal = ({ isOpen, onClose }) => {
       }
     })
     .then((response) => response.json())
-    .then((data) => console.log(data))
+    .then((data) => {
+      if(data) {
+        setTickerInvalid(true)
+      }
+    })
   }
 
   return (
@@ -88,8 +92,13 @@ const AddInvestmentsModal = ({ isOpen, onClose }) => {
           : 
           <>
             <h4>{firstPageChoice}</h4>
+            {tickerInvalid ? 
+              <p style={{'color': "red"}}>Invalid Ticker</p>
+            :
+              null
+            }
             <label>
-              Ticker: <input id="ticker"/>
+              Ticker: <input id="ticker" onChange={() => setTickerInvalid(false)}/>
             </label>
             <label>
               Amount: <input id="amount"/>
@@ -106,7 +115,7 @@ const AddInvestmentsModal = ({ isOpen, onClose }) => {
         {firstPage ?
           <button className="submitButton" onClick={firstPageContinue}>Continue</button>
           : 
-          <button className="submitButton" onClick={onSubmit}>Submit</button>
+          <button className="submitButton" onClick={onSubmit} disabled={tickerInvalid}>Submit</button>
         }
         </div>
       </div>
