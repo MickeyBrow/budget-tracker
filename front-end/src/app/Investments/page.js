@@ -5,10 +5,9 @@ export default function Dashboard() {
     <>
       <div className="container">
         <div className="leftSide">
-          <h4>Crypto:</h4>
+          <h4>Stocks:</h4>
         </div>
         <div className="rightSide">
-          <h4>Stocks:</h4>
         </div>
       </div>
     </>

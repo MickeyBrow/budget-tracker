@@ -84,7 +84,6 @@ const AddInvestmentsModal = ({ isOpen, onClose }) => {
             <label>
               What type of input is this? <select id="choice">
                 <option value="">---</option>
-                <option value="Crypto">Crypto</option>
                 <option value="Stock">Stock</option>
               </select>
             </label>
