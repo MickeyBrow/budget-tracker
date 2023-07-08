@@ -1,5 +1,6 @@
 import firebase_admin
 import uuid
+import yfinance as yf
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -29,7 +30,7 @@ app = firebase_admin.initialize_app(cred)
 db = firestore.client()
 
 ##########################################################################
-# helper funtions 
+# Dashboard helper funtions 
 
 def getTableTotals(data):
   final = {}
@@ -146,17 +147,27 @@ def addInvestmentData():
   transation_uid = uuid.uuid4()
   temp_ref = db.collection(uid).document('Investments').collection(table).document(str(transation_uid))
   
-  packet = {
-    "ticker": data['ticker'],
-    "amount": data['amount'],
-    "price": data['price'],
-    "date": data['date'],
-    "uid": str(transation_uid),
-  }
+  match table:
+    case "Stock":
+      try:
+        ticker = yf.Ticker(data['ticker'])
+        ticker.info
+      except:
+        return {"error": "invalid symbol"}
 
-  temp_ref.set(packet)
+      packet = {
+        "ticker": data['ticker'],
+        "amount": data['amount'],
+        "price": data['price'],
+        "date": data['date'],
+        "uid": str(transation_uid),
+      }
 
-  return {}
+      temp_ref.set(packet)
+      return {}
+    
+    case "Crypto":
+      return {}
 
 @app.route('/data', methods=['GET'])
 def getData():

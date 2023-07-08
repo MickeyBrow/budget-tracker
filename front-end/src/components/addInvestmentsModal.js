@@ -47,7 +47,6 @@ const AddInvestmentsModal = ({ isOpen, onClose }) => {
     const price = document.getElementById('price').value;
     const date = document.getElementById('date').value;
 
-    console.log(date)
     const onSubmitApiLink = api_links.investment + `?uid=${account_uid}&table=${firstPageChoice}`
     fetch(onSubmitApiLink, {
       method: 'POST',
@@ -61,6 +60,8 @@ const AddInvestmentsModal = ({ isOpen, onClose }) => {
         'Content-Type': 'application/json'
       }
     })
+    .then((response) => response.json())
+    .then((data) => console.log(data))
   }
 
   return (
