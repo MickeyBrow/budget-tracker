@@ -14,7 +14,7 @@ const SidePanel = () => {
 
   return (
     <>
-      <div class="sidenav">
+      <div className="sidenav">
         <a href="/Dashboard">Dashboard</a>
         <a href="/Investments">Investments</a>
         <a style={{'cursor': "pointer"}} onClick={handleSignOut}>Sign Out</a>

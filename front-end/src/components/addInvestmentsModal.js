@@ -62,7 +62,11 @@ const AddInvestmentsModal = ({ isOpen, onClose }) => {
     })
     .then((response) => response.json())
     .then((data) => {
-      if(data) {
+      if(Object.keys(data).length == 0){
+        closeModal()
+        window.location.reload()
+      }
+      else{
         setTickerInvalid(true)
       }
     })

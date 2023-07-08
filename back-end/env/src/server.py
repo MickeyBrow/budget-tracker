@@ -156,7 +156,7 @@ def addInvestmentData():
         return {"error": "invalid symbol"}
 
       packet = {
-        "ticker": data['ticker'],
+        "ticker": data['ticker'].upper(),
         "amount": data['amount'],
         "price": data['price'],
         "date": data['date'],
@@ -168,6 +168,29 @@ def addInvestmentData():
     
     case "Crypto":
       return {}
+
+@app.route('/investment', methods=['GET'])
+def getInvestmentData():
+  uid = request.args.get('uid')
+
+  data = {}
+
+  temp_ref = db.collection(uid).document('Investments').collection('Stock')
+  docs = temp_ref.stream()
+  for doc in docs:
+    data[doc.id] = doc.to_dict()
+  
+  return data
+
+@app.route('/investment', methods=['DELETE'])
+def deleteInvestmentData():
+  uid = request.args.get('uid')
+  data = request.json
+
+  temp_ref = db.collection(uid).document('Investments').collection(data['table']).document(data['deleteUid'])
+  temp_ref.delete()
+  
+  return {}
 
 @app.route('/data', methods=['GET'])
 def getData():
