@@ -1,6 +1,5 @@
 import firebase_admin
 import uuid
-import yfinance as yf
 import requests
 from bs4 import BeautifulSoup
 import cryptocompare
@@ -133,7 +132,7 @@ def getCurrentPriceCrypto(ticker):
   if not price:
     return "no data"
   
-  return round(price[ticker]['USD'], 2)
+  return str(round(price[ticker]['USD'], 2))
 
 ##########################################################################
 
@@ -174,10 +173,9 @@ def addInvestmentData():
   temp_ref = db.collection(uid).document('Investments').collection(table).document(str(transation_uid))
   
   if table == "Stock":
-    try:
-        ticker = yf.Ticker(data['ticker'])
-        ticker.info
-    except:
+    hdr = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36'}
+    r = requests.get("https://ycharts.com/companies/{}".format(data['ticker']), headers=hdr)
+    if r.status_code == 404:
       return {"error": "invalid symbol"}
 
     packet = {
@@ -230,7 +228,7 @@ def getInvestmentData():
       for doc in docs:
         dataCrypto[doc.id] = doc.to_dict()
         dataCrypto[doc.id]['currentPrice'] = getCurrentPriceCrypto(dataCrypto[doc.id]['ticker'])
-        
+
   return {
     'stock': dataStock,
     'crypto': dataCrypto
