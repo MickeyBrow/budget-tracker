@@ -1,5 +1,9 @@
 import firebase_admin
 import uuid
+import yfinance as yf
+import requests
+from bs4 import BeautifulSoup
+import cryptocompare
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -29,7 +33,7 @@ app = firebase_admin.initialize_app(cred)
 db = firestore.client()
 
 ##########################################################################
-# helper funtions 
+# Dashboard helper funtions 
 
 def getTableTotals(data):
   final = {}
@@ -110,6 +114,29 @@ def formatSummaryData(data):
   return data
 ##########################################################################
 
+##########################################################################
+# Investment Helpers
+
+def getCurrentPriceStock(ticker):
+  try:
+    hdr = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36'}
+    r = requests.get("https://ycharts.com/companies/{}".format(ticker), headers=hdr)
+  except:
+    return "no data"
+  
+  soup = BeautifulSoup(r.content, 'html.parser')
+  s = soup.find('span', class_='index-rank-value')
+  return str(s)[31:37]
+
+def getCurrentPriceCrypto(ticker):
+  price = cryptocompare.get_price(ticker, 'USD')
+  if not price:
+    return "no data"
+  
+  return round(price[ticker]['USD'], 2)
+
+##########################################################################
+
 app = Flask(__name__)
 CORS(app)
 
@@ -136,6 +163,89 @@ def addData():
 
   temp_ref.update({'total': firestore.Increment(float(data['amount'][1:]))})
 
+  return {}
+
+@app.route('/investment', methods=['POST'])
+def addInvestmentData():
+  uid, table = request.args.get('uid'), request.args.get('table')
+  data = request.json
+
+  transation_uid = uuid.uuid4()
+  temp_ref = db.collection(uid).document('Investments').collection(table).document(str(transation_uid))
+  
+  match table:
+    case "Stock":
+      try:
+        ticker = yf.Ticker(data['ticker'])
+        ticker.info
+      except:
+        return {"error": "invalid symbol"}
+
+      packet = {
+        "ticker": data['ticker'].upper(),
+        "amount": data['amount'],
+        "price": data['price'],
+        "date": data['date'],
+        "uid": str(transation_uid),
+      }
+
+      temp_ref.set(packet)
+      return {}
+    
+    case "Crypto":
+      price = cryptocompare.get_price(data['ticker'], 'USD')
+      if not price:
+        return {"error": "invalid symbol"}
+
+      packet = {
+        "ticker": data['ticker'].upper(),
+        "amount": data['amount'],
+        "price": data['price'],
+        "date": data['date'],
+        "uid": str(transation_uid),
+      }
+
+      temp_ref.set(packet)
+      return {}
+
+@app.route('/investment', methods=['GET'])
+def getInvestmentData():
+  uid = request.args.get('uid')
+
+  tables = ['Stock', 'Crypto']
+
+  dataStock = {}
+  dataCrypto = {}
+
+  for table in tables:
+    temp_ref = db.collection(uid).document('Investments').collection(table)
+
+    match table:
+      case "Stock":
+        docs = temp_ref.stream()
+        for doc in docs:
+          dataStock[doc.id] = doc.to_dict()
+          dataStock[doc.id]['currentPrice'] = getCurrentPriceStock(dataStock[doc.id]['ticker'])
+      case "Crypto":
+        docs = temp_ref.stream()
+        for doc in docs:
+          dataCrypto[doc.id] = doc.to_dict()
+          dataCrypto[doc.id]['currentPrice'] = getCurrentPriceCrypto(dataCrypto[doc.id]['ticker'])
+
+  
+  return {
+    'stock': dataStock,
+    'crypto': dataCrypto
+  }
+
+@app.route('/investment', methods=['DELETE'])
+def deleteInvestmentData():
+  uid = request.args.get('uid')
+  data = request.json
+
+  temp_ref = db.collection(uid).document('Investments').collection(data['table']).document(data['deleteUid'])
+  temp_ref.delete()
+  
   return {}
 
 @app.route('/data', methods=['GET'])
