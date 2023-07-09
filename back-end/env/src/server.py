@@ -2,7 +2,7 @@ import firebase_admin
 import uuid
 import requests
 from bs4 import BeautifulSoup
-# import cryptocompare
+import cryptocompare
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -189,29 +189,28 @@ def addInvestmentData():
     temp_ref.set(packet)
     return {}
   
-  # elif table == "Crypto":
-  #   price = cryptocompare.get_price(data['ticker'], 'USD')
-  #   if not price:
-  #     return {"error": "invalid symbol"}
+  elif table == "Crypto":
+    price = cryptocompare.get_price(data['ticker'], 'USD')
+    if not price:
+      return {"error": "invalid symbol"}
 
-  #   packet = {
-  #     "ticker": data['ticker'].upper(),
-  #     "amount": data['amount'],
-  #     "price": data['price'],
-  #     "date": data['date'],
-  #     "uid": str(transation_uid),
-  #   }
+    packet = {
+      "ticker": data['ticker'].upper(),
+      "amount": data['amount'],
+      "price": data['price'],
+      "date": data['date'],
+      "uid": str(transation_uid),
+    }
 
-  #   temp_ref.set(packet)
-  #   return {}
+    temp_ref.set(packet)
+    return {}
       
 
 @app.route('/investment', methods=['GET'])
 def getInvestmentData():
   uid = request.args.get('uid')
 
-  # tables = ['Stock', 'Crypto']
-  tables = ['Stock']
+  tables = ['Stock', 'Crypto']
 
   dataStock = {}
   dataCrypto = {}
