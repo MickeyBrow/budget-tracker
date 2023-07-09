@@ -1,6 +1,8 @@
 import firebase_admin
 import uuid
 import yfinance as yf
+import requests
+from bs4 import BeautifulSoup
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -111,6 +113,22 @@ def formatSummaryData(data):
   return data
 ##########################################################################
 
+##########################################################################
+# Investment Helpers
+
+def getCurrentPrice(ticker):
+  try:
+    hdr = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36'}
+    r = requests.get("https://ycharts.com/companies/{}".format(ticker), headers=hdr)
+  except:
+    return "no data"
+  
+  soup = BeautifulSoup(r.content, 'html.parser')
+  s = soup.find('span', class_='index-rank-value')
+  return str(s)[31:37]
+
+##########################################################################
+
 app = Flask(__name__)
 CORS(app)
 
@@ -179,6 +197,7 @@ def getInvestmentData():
   docs = temp_ref.stream()
   for doc in docs:
     data[doc.id] = doc.to_dict()
+    data[doc.id]['currentPrice'] = getCurrentPrice(data[doc.id]['ticker'])
   
   return data
 
