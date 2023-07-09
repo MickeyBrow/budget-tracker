@@ -173,40 +173,40 @@ def addInvestmentData():
   transation_uid = uuid.uuid4()
   temp_ref = db.collection(uid).document('Investments').collection(table).document(str(transation_uid))
   
-  match table:
-    case "Stock":
-      try:
+  if table == "Stock":
+    try:
         ticker = yf.Ticker(data['ticker'])
         ticker.info
-      except:
-        return {"error": "invalid symbol"}
+    except:
+      return {"error": "invalid symbol"}
 
-      packet = {
-        "ticker": data['ticker'].upper(),
-        "amount": data['amount'],
-        "price": data['price'],
-        "date": data['date'],
-        "uid": str(transation_uid),
-      }
+    packet = {
+      "ticker": data['ticker'].upper(),
+      "amount": data['amount'],
+      "price": data['price'],
+      "date": data['date'],
+      "uid": str(transation_uid),
+    }
 
-      temp_ref.set(packet)
-      return {}
-    
-    case "Crypto":
-      price = cryptocompare.get_price(data['ticker'], 'USD')
-      if not price:
-        return {"error": "invalid symbol"}
+    temp_ref.set(packet)
+    return {}
+  
+  elif table == "Crypto":
+    price = cryptocompare.get_price(data['ticker'], 'USD')
+    if not price:
+      return {"error": "invalid symbol"}
 
-      packet = {
-        "ticker": data['ticker'].upper(),
-        "amount": data['amount'],
-        "price": data['price'],
-        "date": data['date'],
-        "uid": str(transation_uid),
-      }
+    packet = {
+      "ticker": data['ticker'].upper(),
+      "amount": data['amount'],
+      "price": data['price'],
+      "date": data['date'],
+      "uid": str(transation_uid),
+    }
 
-      temp_ref.set(packet)
-      return {}
+    temp_ref.set(packet)
+    return {}
+      
 
 @app.route('/investment', methods=['GET'])
 def getInvestmentData():
@@ -220,19 +220,17 @@ def getInvestmentData():
   for table in tables:
     temp_ref = db.collection(uid).document('Investments').collection(table)
 
-    match table:
-      case "Stock":
-        docs = temp_ref.stream()
-        for doc in docs:
-          dataStock[doc.id] = doc.to_dict()
-          dataStock[doc.id]['currentPrice'] = getCurrentPriceStock(dataStock[doc.id]['ticker'])
-      case "Crypto":
-        docs = temp_ref.stream()
-        for doc in docs:
-          dataCrypto[doc.id] = doc.to_dict()
-          dataCrypto[doc.id]['currentPrice'] = getCurrentPriceCrypto(dataCrypto[doc.id]['ticker'])
-
-  
+    if table == "Stock":
+      docs = temp_ref.stream()
+      for doc in docs:
+        dataStock[doc.id] = doc.to_dict()
+        dataStock[doc.id]['currentPrice'] = getCurrentPriceStock(dataStock[doc.id]['ticker'])
+    elif table == "Crypto":
+      docs = temp_ref.stream()
+      for doc in docs:
+        dataCrypto[doc.id] = doc.to_dict()
+        dataCrypto[doc.id]['currentPrice'] = getCurrentPriceCrypto(dataCrypto[doc.id]['ticker'])
+        
   return {
     'stock': dataStock,
     'crypto': dataCrypto
