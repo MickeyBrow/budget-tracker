@@ -54,6 +54,13 @@ export default function Investments() {
   }
 
   const handleWhatIf = (stock) => {
+    if (stock['currentPrice'] == "no data"){
+      return(
+        <>
+          <p>N/A</p>
+        </>
+      )
+    }
     const price = stock['price'].replace('$', '')
     const current_have = parseFloat(stock['amount']) * parseFloat(price)
     const whatIfPrice = parseFloat(stock['amount']) * parseFloat(stock['currentPrice'])
