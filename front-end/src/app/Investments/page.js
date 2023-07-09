@@ -9,6 +9,7 @@ import { BiTrash } from "react-icons/bi";
 
 export default function Investments() {
   const [stockData, setStockData] = useState();
+  const [cryptoData, setCryptoData] = useState();
   const [accountUid, setAccountUid] = useState();
   let router = useRouter();
 
@@ -17,7 +18,8 @@ export default function Investments() {
       fetch(api_links.investment + `?uid=${uid}`)
       .then((response) => response.json())
       .then((data) => {
-        setStockData(data)
+        setStockData(data['stock'])
+        setCryptoData(data['crypto'])
       })
     }
     const fetchTableData = () => {
@@ -83,7 +85,7 @@ export default function Investments() {
     }
   }
 
-  if (!stockData) return <p style={{'marginLeft': "160px"}}>Loading...</p>
+  if (!stockData || !cryptoData) return <p style={{'marginLeft': "160px"}}>Loading...</p>
 
   return (
     <>
@@ -93,7 +95,7 @@ export default function Investments() {
           {stockData && Object.values(stockData).map(stock => {return (
               <>
                 <div className="cardHeader">
-                  <p>Date</p>
+                  <p>Date Bought</p>
                   <p>Ticker</p>
                   <p>Amount</p>
                   <p>Buy Price</p>
@@ -111,6 +113,26 @@ export default function Investments() {
             )})}
         </div>
         <div className="rightSide">
+        <h4>Crypto:</h4>
+          {cryptoData && Object.values(cryptoData).map(crypto => {return (
+              <>
+                <div className="cardHeader">
+                  <p>Date Bought</p>
+                  <p>Ticker</p>
+                  <p>Amount</p>
+                  <p>Buy Price</p>
+                  <p>If sold today</p>
+                </div>
+                <div className="card">
+                  <p>{crypto['date']}</p>
+                  <p>{crypto['ticker']}</p>
+                  <p>{crypto['amount']}</p>
+                  <p>{crypto['price']}</p>
+                  <p>{handleWhatIf(crypto)}</p>
+                  <button className="deleteStockButton" onClick={() => handleDelete("Crypto", crypto['uid'])}><BiTrash/></button>
+                </div>
+              </>
+            )})}
         </div>
       </div>
     </>

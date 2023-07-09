@@ -3,6 +3,7 @@ import uuid
 import yfinance as yf
 import requests
 from bs4 import BeautifulSoup
+import cryptocompare
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -116,7 +117,7 @@ def formatSummaryData(data):
 ##########################################################################
 # Investment Helpers
 
-def getCurrentPrice(ticker):
+def getCurrentPriceStock(ticker):
   try:
     hdr = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36'}
     r = requests.get("https://ycharts.com/companies/{}".format(ticker), headers=hdr)
@@ -126,6 +127,13 @@ def getCurrentPrice(ticker):
   soup = BeautifulSoup(r.content, 'html.parser')
   s = soup.find('span', class_='index-rank-value')
   return str(s)[31:37]
+
+def getCurrentPriceCrypto(ticker):
+  price = cryptocompare.get_price(ticker, 'USD')
+  if not price:
+    return "no data"
+  
+  return round(price[ticker]['USD'], 2)
 
 ##########################################################################
 
@@ -185,21 +193,50 @@ def addInvestmentData():
       return {}
     
     case "Crypto":
+      price = cryptocompare.get_price(data['ticker'], 'USD')
+      if not price:
+        return {"error": "invalid symbol"}
+
+      packet = {
+        "ticker": data['ticker'].upper(),
+        "amount": data['amount'],
+        "price": data['price'],
+        "date": data['date'],
+        "uid": str(transation_uid),
+      }
+
+      temp_ref.set(packet)
       return {}
 
 @app.route('/investment', methods=['GET'])
 def getInvestmentData():
   uid = request.args.get('uid')
 
-  data = {}
+  tables = ['Stock', 'Crypto']
 
-  temp_ref = db.collection(uid).document('Investments').collection('Stock')
-  docs = temp_ref.stream()
-  for doc in docs:
-    data[doc.id] = doc.to_dict()
-    data[doc.id]['currentPrice'] = getCurrentPrice(data[doc.id]['ticker'])
+  dataStock = {}
+  dataCrypto = {}
+
+  for table in tables:
+    temp_ref = db.collection(uid).document('Investments').collection(table)
+
+    match table:
+      case "Stock":
+        docs = temp_ref.stream()
+        for doc in docs:
+          dataStock[doc.id] = doc.to_dict()
+          dataStock[doc.id]['currentPrice'] = getCurrentPriceStock(dataStock[doc.id]['ticker'])
+      case "Crypto":
+        docs = temp_ref.stream()
+        for doc in docs:
+          dataCrypto[doc.id] = doc.to_dict()
+          dataCrypto[doc.id]['currentPrice'] = getCurrentPriceCrypto(dataCrypto[doc.id]['ticker'])
+
   
-  return data
+  return {
+    'stock': dataStock,
+    'crypto': dataCrypto
+  }
 
 @app.route('/investment', methods=['DELETE'])
 def deleteInvestmentData():
